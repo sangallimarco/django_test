@@ -1,0 +1,16 @@
+<h1>GROUPS</h1>
+<ul>
+    {% for p in groups %}
+        <li><a href='{{ p.id }}/'>show</a> {{ p.name|upper }}</li>
+    {% endfor %}
+</ul>
+
+<form method='POST'>
+    {% csrf_token %}
+    <!--
+        <input type='text' name='name' value='n'></input>
+        <input type='text' name='surname' value='s'></input>
+    -->
+    {{ formset }}
+    <input type='submit' name='Save' value='Save'/>
+</form>
