@@ -82,3 +82,11 @@ class Message(models.Model):
 
 	def __unicode__(self):
 		return self.message
+
+class Picture(models.Model):
+	title = models.CharField(max_length=250)
+	tag = models.ManyToManyField(Tag, verbose_name="list of tags")
+	resource = models.CharField(max_length=250)
+
+	def __unicode__(self):
+		return self.title
