@@ -1,17 +1,30 @@
-<h1>TEST</h1>
-<ul>
-{% for p in persons %}
-    <li><a href='../{{ p.id }}/'>show</a>{{ p.name|upper }}</li>
-{% endfor %}
-</ul>
+{% extends "base.html" %}
+{% block pagetitle %}INDEX{% endblock %}
+{% block title %}INDEX{% endblock %}
+{% block content %}
 
-<form method='POST'>
-	{% csrf_token %}
+<div data-role="content">
+	<div class="content-primary">
+		<ol data-role="listview">
+		{% for p in persons %}
+			<li><a href='../{{ p.id }}/'>show {{ p.name|upper }}</a></li>
+		{% endfor %}
+		</ol>
+	</div>
+
+		<div class="content-secondary">
+            <form method='POST'>
 <!--
+
+	{% csrf_token %}
 	<input type='text' name='name' value='n'></input>
 	<input type='text' name='surname' value='s'></input>
--->
 {{ formset }}
 <input type='submit' name='Save' value='Save'/>
 
-</form>
+
+-->
+			</form>
+		</div>
+	</div>
+{% endblock %}

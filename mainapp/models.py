@@ -51,6 +51,7 @@ class Person(models.Model):
 	surname = models.CharField(max_length=200)
 	tags = models.ManyToManyField(Tag, verbose_name="list of tags")
 	groups = models.ManyToManyField(Group, verbose_name="list of groups")
+	picture = models.ImageField(upload_to="pictures/%Y/%m/%d")
 
 	def __unicode__(self):
 		return self.name
@@ -87,6 +88,13 @@ class Picture(models.Model):
 	title = models.CharField(max_length=250)
 	tag = models.ManyToManyField(Tag, verbose_name="list of tags")
 	resource = models.CharField(max_length=250)
+
+	def __unicode__(self):
+		return self.title
+
+class Video(models.Model):
+	title = models.CharField(max_length=250)
+	url = models.CharField(max_length=250)
 
 	def __unicode__(self):
 		return self.title
