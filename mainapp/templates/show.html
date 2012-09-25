@@ -1,10 +1,21 @@
 {% extends "base_bootstrap.html" %}
 {% block title %}SHOW{% endblock %}
 {% block content %}
-<div>{{ person.id }} {{ person.name }} {{ person.surname }}</div>
-<ul>
-{% for p in tags %}
-    <li>{{ p.id }} {{ p.name }}</li>
-{% endfor %}
-</ul>
+
+<section id="formtest">
+	<div class="page-header">
+		<h1>Details {{ person.name }} {{ person.surname }}</h1>
+	</div>
+
+	<table class="table table-bordered table-hover">
+		<legend>Tags</legend>
+		<tr><th>name</th><th>Link</th></tr>
+		{% for p in tags %}
+	        <td>{{ p.id }}</td><td>{{ p.name }}</td>
+		{% endfor %}
+	</table>
+
+	<button class="btn btn-primary" onclick="document.location.href='../index/'">Back</button>
+
+</section>
 {% endblock %}
