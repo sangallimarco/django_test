@@ -8,23 +8,26 @@
 			<h1>Tables</h1>
 		</div>
 		<div>
-			<table class="table table-bordered">
-				<tr><th>Link</th><th>name</th></tr>
+			<table class="table table-bordered table-hover">
+				<tr><th>name</th><th>Link</th></tr>
 				{% for p in persons %}
-					<tr><td><a href='../{{ p.id }}/'>show</a></td><td>{{ p.name|upper }}</td></tr>
+					<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='../{{ p.id }}/'">Details</button></td></tr>
 				{% endfor %}
 			</table>
 		</div>
 
 	</section>
 
-	<section id="tables">
-
+	<section id="formtest">
+		<div class="page-header">
+			<h1>Add User</h1>
+		</div>
 		<div class="table">
-			<legend>Form</legend>
+			<!--<legend>Form</legend>-->
             <form method='POST'>
 				{% csrf_token %}
 				{{ formset }}
+	            <br>
 				<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
 			</form>
 		</div>
