@@ -2,20 +2,31 @@
 {% block title %}SHOW{% endblock %}
 {% block content %}
 
-<section id="formtest">
-	<div class="page-header">
-		<h1>Details {{ person.name }} {{ person.surname }}</h1>
+<div class="span3 bs-docs-sidebar">
+	<ul class="nav nav-list bs-docs-sidenav affix">
+		<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
+		<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
+	</ul>
+</div>
+
+<div class="span9">
+	<div class="container">
+		<section id="formtest">
+			<div class="page-header">
+				<h1>Details {{ person.name }} {{ person.surname }}</h1>
+			</div>
+
+			<table class="table table-bordered table-hover">
+				<legend>Tags</legend>
+				<tr><th>name</th><th>Link</th></tr>
+				{% for p in tags %}
+			        <td>{{ p.id }}</td><td>{{ p.name }}</td>
+				{% endfor %}
+			</table>
+
+			<button class="btn btn-primary" onclick="document.location.href='../index/'">Back</button>
+
+		</section>
 	</div>
-
-	<table class="table table-bordered table-hover">
-		<legend>Tags</legend>
-		<tr><th>name</th><th>Link</th></tr>
-		{% for p in tags %}
-	        <td>{{ p.id }}</td><td>{{ p.name }}</td>
-		{% endfor %}
-	</table>
-
-	<button class="btn btn-primary" onclick="document.location.href='../index/'">Back</button>
-
-</section>
+</div>
 {% endblock %}

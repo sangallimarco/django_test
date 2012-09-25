@@ -3,35 +3,45 @@
 {% block title %}INDEX{% endblock %}
 {% block content %}
 
-	<section id="tables">
-		<div class="page-header">
-			<h1>Tables</h1>
-		</div>
-		<div>
-			<table class="table table-bordered table-hover">
-				<tr><th>name</th><th>Link</th></tr>
-				{% for p in persons %}
-					<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='../{{ p.id }}/'">Details</button></td></tr>
-				{% endfor %}
-			</table>
-		</div>
+	<div class="span3 bs-docs-sidebar">
+		<ul class="nav nav-list bs-docs-sidenav affix">
+			<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
+			<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
+		</ul>
+	</div>
 
-	</section>
+	<div class="span9">
+		<div class="container">
 
-	<section id="formtest">
-		<div class="page-header">
-			<h1>Add User</h1>
+			<section id="tables">
+				<div class="page-header">
+					<h1>Tables</h1>
+				</div>
+				<div>
+					<table class="table table-bordered table-hover">
+						<tr><th>name</th><th>Link</th></tr>
+						{% for p in persons %}
+							<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='../{{ p.id }}/'">Details</button></td></tr>
+						{% endfor %}
+					</table>
+				</div>
+
+			</section>
+
+			<section id="forms">
+				<div class="page-header">
+					<h1>Add User</h1>
+				</div>
+				<div class="table">
+					<!--<legend>Form</legend>-->
+		            <form method='POST'>
+						{% csrf_token %}
+						{{ formset }}
+			            <br>
+						<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
+					</form>
+				</div>
+			</section>
 		</div>
-		<div class="table">
-			<!--<legend>Form</legend>-->
-            <form method='POST'>
-				{% csrf_token %}
-				{{ formset }}
-	            <br>
-				<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
-			</form>
-		</div>
-	</section>
-
-
+	</div>
 {% endblock %}
