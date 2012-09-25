@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<!-- Bootstrap -->
+	<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+		}
+	</style>
+</head>
+<body data-spy="scroll" >
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">StreetMate</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="/mainapp/index/">Home</a></li>
+						<li><a href="#about">Find</a></li>
+						<li><a href="#contact">Profile</a></li>
+						<li><a href="#contact">Messages</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span3 bs-docs-sidebar">
+			<ul class="nav nav-list bs-docs-sidenav">
+				<li><a href="#typography"><i class="icon-chevron-right"></i> Typography</a></li>
+				<li><a href="#code"><i class="icon-chevron-right"></i> Code</a></li>
+				<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
+				<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
+				<li><a href="#buttons"><i class="icon-chevron-right"></i> Buttons</a></li>
+				<li><a href="#images"><i class="icon-chevron-right"></i> Images</a></li>
+				<li><a href="#icons"><i class="icon-chevron-right"></i> Icons by Glyphicons</a></li>
+			</ul>
+		</div>
+		<div class="span9">
+
+		<div class="container">
+		{% block content %}{% endblock %}
+		</div>
+
+	</div>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

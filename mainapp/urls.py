@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('mainapp',
                        url(r'^index/$', 'views.index'),
+                       url(r'^index_bs/$', 'views.index_bs'),
                        url(r'^(?P<name_id>\d+)/$', 'views.showid'),
 
                        url(r'^jperson/$', 'views.json_person'),

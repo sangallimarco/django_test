@@ -1,7 +1,10 @@
-<h1>SHOW</h1>
+{% extends "base_bootstrap.html" %}
+{% block title %}SHOW{% endblock %}
+{% block content %}
 <div>{{ person.id }} {{ person.name }} {{ person.surname }}</div>
 <ul>
 {% for p in tags %}
     <li>{{ p.id }} {{ p.name }}</li>
 {% endfor %}
 </ul>
+{% endblock %}

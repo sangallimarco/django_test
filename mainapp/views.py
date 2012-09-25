@@ -35,6 +35,26 @@ def index(request):
 	a=Person.objects.all()
 	return render_to_response('mainapp/templates/index.html',{'persons':a,'formset':formset}, context_instance=RequestContext(request))
 
+def index_bs(request):
+	"""
+	home page
+	"""
+	PersonFormSet = modelformset_factory(Person)
+
+	if request.method == 'POST':
+		formset = PersonFormSet(request.POST)
+		#form = PersonForm(request.POST)
+		if formset.is_valid():
+			formset.save()
+		#add tags
+	else:
+		#formset = PersonFormSet(queryset=Person.objects.filter(name__startswith='O'))
+		formset = PersonFormSet(queryset=Person.objects.filter(name__startswith='---'))
+
+	a=Person.objects.all()
+	return render_to_response('mainapp/templates/index.html',{'persons':a,'formset':formset}, context_instance=RequestContext(request))
+
+
 def tags(request):
 	TagsFormSet = modelformset_factory(Tag)
 
