@@ -30,19 +30,6 @@
 
 
 			<section id="forms">
-				<!--
-			    <form id="insertform2" method='POST'>
-				  <div class="page-header">
-					  <h1>Add User</h1>
-				  </div>
-				  <div class="table">
-							{% csrf_token %}
-							{{ formset.as_p }}
-				            <br>
-							<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
-					</div>
-				</form>
-				-->
 
 				<form id="insertform" method='POST'>
 					<div class="page-header">
@@ -79,13 +66,20 @@
 					"surname": {
 						minlength: 2,
 						required: true
+					},
+					"tags": {
+						required: true
+					},
+					"groups": {
+						required: true
 					}
 				},
 				highlight: function(label) {
-					$(label).closest('.control-group').addClass('error');
+					$(label).closest('.control-group').removeClass('success').addClass('error');
+					console.log('error');
 				},
 				success: function(label) {
-					$(label).addClass('success');
+					$(label).closest('.control-group').removeClass('error').addClass('success');
 				}
 			});
 
