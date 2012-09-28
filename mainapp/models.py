@@ -51,7 +51,7 @@ class Person(models.Model):
 	surname = models.CharField(max_length=200)
 	tags = models.ManyToManyField(Tag, verbose_name="list of tags")
 	groups = models.ManyToManyField(Group, verbose_name="list of groups")
-	#img = models.ImageField(upload_to="pictures/%Y/%m/%d")
+	img = models.ImageField(upload_to="pictures/%Y/%m/%d", null=True, blank=True)
 
 	def __unicode__(self):
 		return self.name

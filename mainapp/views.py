@@ -21,7 +21,7 @@ def index(request):
 	home page
 	"""
 	if request.method == 'POST':
-		formset = PersonForm(request.POST)
+		formset = PersonForm(request.POST, request.FILES)
 		if formset.is_valid():
 			formset.save()	
 			#add tags
