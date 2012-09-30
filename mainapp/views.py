@@ -5,6 +5,7 @@ from django.forms.models import modelformset_factory
 from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 #from django.views.decorators.csrf import csrf_protect
 from models import *
 from forms import *
@@ -31,7 +32,7 @@ def login(request):
 		formset = LoginForm(request.POST)
 		if formset.is_valid():
 			#authenticate user
-			user = authenticate(username=formset.name, password=formset.password)
+			user = authenticate(username=formset.user, password=formset.password)
 			#check user
 			if user is not None:
 				if user.is_active:
