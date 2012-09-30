@@ -98,3 +98,6 @@ class Video(models.Model):
 
 	def __unicode__(self):
 		return self.title
+
+class Geo(models.Model):
+	title = models.CharField(max_length=250)
