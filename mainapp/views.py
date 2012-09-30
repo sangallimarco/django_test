@@ -5,6 +5,7 @@ from django.forms.models import modelformset_factory
 from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 from models import *
 from forms import *
 
@@ -24,6 +25,17 @@ def index(request):
 	a=Person.objects.all()
 
 	return render_to_response('mainapp/templates/index.html',{'persons':a,'formset':formset}, context_instance=RequestContext(request))
+
+@csrf_protect
+def login(request):
+	c={}
+	if request.method == 'POST':
+		formset = LoginForm(request.POST)
+	else:
+		formset = LoginForm()
+
+	return render_to_response('mainapp/templates/login.html',{'formset':formset},c)
+
 
 def tags(request):
 	TagsFormSet = modelformset_factory(Tag)

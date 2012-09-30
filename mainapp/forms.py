@@ -8,3 +8,7 @@ class TestForm(forms.Form):
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
+
+class LoginForm(forms.Form):
+	name=forms.CharField(max_length=200)
+	password=forms.CharField(max_length=200)
