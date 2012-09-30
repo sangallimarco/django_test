@@ -1,6 +1,7 @@
 {% extends "base_bootstrap.html" %}
 {% block pagetitle %}LOGIN{% endblock %}
 {% block title %}LOGIN{% endblock %}
+
 {% block content %}
 	<div class="span3 bs-docs-sidebar">
 		<ul class="nav nav-list bs-docs-sidenav affix">
@@ -11,9 +12,47 @@
 	<div class="span9">
 		<div class="container">
 			<section id="login">
-				<form id="loginform">
+				<form id="loginform" enctype="text/plain" method="POST">
+					{% for field in formset %}
+						<div class="control-group">
+							{{ field.label_tag }}
+							<div class="controls">
+								{{ field }}
+								<span class="help-inline"></span>
+							</div>
+						</div>
+					{% endfor %}
+					{% csrf_token %}
+					<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
 				</form>
 			</section>
 		</div>
 	</div>
+
+	<script>
+		$(document).ready(function(){
+			$('#loginform').validate({
+				rules: {
+					"name": {
+						minlength: 2,
+						required: true
+					},
+					"password": {
+						minlength: 2,
+						required: true
+					}
+				},
+				highlight: function(label) {
+					$(label).closest('.control-group').removeClass('success').addClass('error');
+					console.log('error');
+				},
+				success: function(label) {
+					$(label).closest('.control-group').removeClass('error').addClass('success');
+				}
+			});
+
+		});
+
+	</script>
+
 {% endblock %}

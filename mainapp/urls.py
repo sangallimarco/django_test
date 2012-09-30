@@ -9,6 +9,6 @@ urlpatterns = patterns('mainapp',
 
 					   url(r'^tags/$', 'views.tags'),
 					   url(r'^groups/$', 'views.groups'),
-					   url(r'^accounts/login/$', 'views.login')
+					   url(r'^login/$', 'views.login')
 
                        )
