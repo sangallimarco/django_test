@@ -29,11 +29,13 @@ def index(request):
 			#add tags
 	else:
 		p = Person()
-		formset = PersonForm(instance=p)
+		formset = PersonForm(instance = p)
 
-	a=Person.objects.all()
+	a = Person.objects.all()
 
-	return render_to_response('mainapp/templates/index.html',{'persons':a,'formset':formset}, context_instance=RequestContext(request))
+	return render_to_response('mainapp/templates/index.html', {'persons':a, 'formset':formset},
+	                          context_instance = RequestContext(request))
+
 
 def log_in(request):
 	if request.method == 'POST':
@@ -41,17 +43,18 @@ def log_in(request):
 		if formset.is_valid():
 			#authenticate user
 			data = formset.cleaned_data
-			user = authenticate(username=data['user'], password=data['password'])
+			user = authenticate(username = data['user'], password = data['password'])
 			#check user
 			if user is not None:
 				if user.is_active:
-					login(request,user)
+					login(request, user)
 					#goto index
 					return redirect('/mainapp/index/')
 	else:
 		formset = LoginForm()
 
-	return render_to_response('mainapp/templates/login.html',{'formset':formset},context_instance=RequestContext(request))
+	return render_to_response('mainapp/templates/login.html', {'formset':formset},
+	                          context_instance = RequestContext(request))
 
 
 def tags(request):
@@ -65,8 +68,10 @@ def tags(request):
 	else:
 		formset = TagsFormSet()
 
-	a=Tag.objects.all()
-	return render_to_response('mainapp/templates/tags.html',{'tags':a,'formset':formset}, context_instance=RequestContext(request))
+	a = Tag.objects.all()
+	return render_to_response('mainapp/templates/tags.html', {'tags':a, 'formset':formset},
+	                          context_instance = RequestContext(request))
+
 
 def groups(request):
 	GroupsFormSet = modelformset_factory(Group)
@@ -79,62 +84,78 @@ def groups(request):
 	else:
 		formset = GroupsFormSet()
 
-	a=Group.objects.all()
-	return render_to_response('mainapp/templates/groups.html',{'groups':a,'formset':formset}, context_instance=RequestContext(request))
+	a = Group.objects.all()
+	return render_to_response('mainapp/templates/groups.html', {'groups':a, 'formset':formset},
+	                          context_instance = RequestContext(request))
 
-@login_required(login_url='/mainapp/login/')
+
+@login_required(login_url = '/mainapp/login/')
 def messages(request):
 	#filter messages, display only messages with destination = user
 	user = User.objects.get(username = request.user)
 	print user
 	list = Message.objects.filter()
 
-	return render_to_response('mainapp/templates/messages.html',{'list':list},context_instance=RequestContext(request))
+	return render_to_response('mainapp/templates/messages.html', {'list':list},
+	                          context_instance = RequestContext(request))
 
-@login_required(login_url='/mainapp/login/')
+
+@login_required(login_url = '/mainapp/login/')
 def new_message(request):
-
+	#get uid
+	uid = Person.objects.get(name = request.user)
+	#print request.POST
+	#
 	if request.method == 'POST':
-		formset = MessageForm(request.POST, request.FILES)
+		formset = MessageForm(request.POST)
+		#
 		if formset.is_valid():
-			formset.save()
+			#add sender
+			f = formset.save(commit=False)
+			f.sender = uid
+			f.save()
 			#
 			return redirect('/mainapp/messages/')
 		#add tags
 	else:
 		p = Message()
-		formset = MessageForm(instance=p)
+		formset = MessageForm(instance = p)
 
-	return render_to_response('mainapp/templates/new_message.html',{'formset':formset},
-	                          context_instance=RequestContext(request))
+	return render_to_response('mainapp/templates/new_message.html', {'formset':formset},
+	                          context_instance = RequestContext(request))
 
-@login_required(login_url='/mainapp/login/')
-def showid(request,name_id):
+
+@login_required(login_url = '/mainapp/login/')
+def showid(request, name_id):
 	"""
 	select row
 	"""
-	a=Person.objects.get(id=name_id)
+	a = Person.objects.get(id = name_id)
 	if a:
-		t=a.tags.all()
+		t = a.tags.all()
 	else:
-		t=[]
-	return render_to_response('mainapp/templates/show.html',{'person':a,'tags':t}, context_instance=RequestContext(request))
-	
+		t = []
+	return render_to_response('mainapp/templates/show.html', {'person':a, 'tags':t},
+	                          context_instance = RequestContext(request))
+
+
 def json_person(request):
-	a=Person.objects.all()
+	a = Person.objects.all()
 	json_serializer = serializers.get_serializer("json")()
-	res = json_serializer.serialize(a,ensure_ascii=False, indent=2, use_natural_keys=True)
-	return HttpResponse(res, mimetype="application/json")
-	
+	res = json_serializer.serialize(a, ensure_ascii = False, indent = 2, use_natural_keys = True)
+	return HttpResponse(res, mimetype = "application/json")
+
+
 def json_tag(request):
-	a=Tag.objects.all()
+	a = Tag.objects.all()
 	json_serializer = serializers.get_serializer("json")()
-	res = json_serializer.serialize(a,ensure_ascii=False, indent=2, use_natural_keys=True)
-	return HttpResponse(res, mimetype="application/json")
+	res = json_serializer.serialize(a, ensure_ascii = False, indent = 2, use_natural_keys = True)
+	return HttpResponse(res, mimetype = "application/json")
+
 
 def xml_test(request):
-	a=Tag.objects.all()
-	xml=serializers.serialize('xml',a)
-	return HttpResponse(xml,mimetype='application/xml')
+	a = Tag.objects.all()
+	xml = serializers.serialize('xml', a)
+	return HttpResponse(xml, mimetype = 'application/xml')
 
 
