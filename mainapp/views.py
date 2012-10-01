@@ -19,10 +19,13 @@ def index(request):
 	if request.method == 'POST':
 		formset = PersonForm(request.POST, request.FILES)
 		if formset.is_valid():
+			#create a new Person and a new User and link them
 			try:
 				formset.save()
 			except:
 				print "duplicated keys"
+			else:
+				return redirect('/mainapp/login/')
 			#add tags
 	else:
 		p = Person()

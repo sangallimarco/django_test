@@ -8,6 +8,7 @@ class TestForm(forms.Form):
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
+		exclude = ('user',)
 
 class LoginForm(forms.Form):
 	user=forms.CharField(max_length=200)
