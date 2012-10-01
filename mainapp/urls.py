@@ -9,6 +9,9 @@ urlpatterns = patterns('mainapp',
 
 					   url(r'^tags/$', 'views.tags'),
 					   url(r'^groups/$', 'views.groups'),
-					   url(r'^login/$', 'views.login')
+					   url(r'^login/$', 'views.log_in'),
+
+					   url(r'^messages/$', 'views.messages'),
+					   url(r'^new_message/$', 'views.new_message'),
 
                        )

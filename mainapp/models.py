@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 def getNaturalKeys(d):
@@ -47,11 +48,21 @@ class Group(models.Model):
 		return self.name
 
 class Person(models.Model):
+	user = models.ForeignKey(User)
+
 	name = models.CharField(max_length=200)
 	surname = models.CharField(max_length=200)
 	tags = models.ManyToManyField(Tag, verbose_name="list of tags")
 	groups = models.ManyToManyField(Group, verbose_name="list of groups")
 	img = models.ImageField(upload_to="pictures/%Y/%m/%d", null=True, blank=True)
+
+	def save(self,*args,**kwargs):
+		#create a new user
+		u = User.objects.create_user(self.name,"no@no.com",self.name)
+		u.save()
+		#selet user
+		self.user = u
+		super(Person, self).save(*args, **kwargs)
 
 	def __unicode__(self):
 		return self.name
