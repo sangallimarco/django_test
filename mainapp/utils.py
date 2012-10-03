@@ -9,8 +9,12 @@ def render_page(request, template, data):
 	"""
 
 	#add user datails
-	user = Person.objects.get(name = request.user)
-	data['user']=user.name
+	try:
+		user = Person.objects.get(name = request.user).name
+	except:
+		user = None
+	#
+	data['user']=user
 	#
 	return render_to_response('mainapp/templates/%s' % template,
 	                          data,

@@ -3,7 +3,7 @@ from django.forms.models import modelformset_factory
 from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 #from django.views.decorators.csrf import csrf_protect
 
@@ -56,6 +56,10 @@ def log_in(request):
 
 	return render_page(request,'login.html', {'formset':formset})
 
+def log_out(request):
+	logout(request)
+	#goto index
+	return redirect('/mainapp/index/')
 
 def tags(request):
 	TagsFormSet = modelformset_factory(Tag)
