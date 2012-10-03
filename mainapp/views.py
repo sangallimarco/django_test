@@ -12,8 +12,6 @@ from forms import *
 from utils import *
 
 
-
-
 def index(request):
 	"""
 	home page
@@ -35,7 +33,7 @@ def index(request):
 
 	a = Person.objects.all()
 
-	return render_page(request,'index.html', {'list':a, 'formset':formset})
+	return render_page(request, 'index.html', {'list':a, 'formset':formset})
 
 
 def log_in(request):
@@ -54,12 +52,14 @@ def log_in(request):
 	else:
 		formset = LoginForm()
 
-	return render_page(request,'login.html', {'formset':formset})
+	return render_page(request, 'login.html', {'formset':formset})
+
 
 def log_out(request):
 	logout(request)
 	#goto index
 	return redirect('/mainapp/index/')
+
 
 def tags(request):
 	TagsFormSet = modelformset_factory(Tag)
@@ -74,7 +74,7 @@ def tags(request):
 
 	a = Tag.objects.all()
 
-	return render_page(request,'tags.html', {'list':a, 'formset':formset})
+	return render_page(request, 'tags.html', {'list':a, 'formset':formset})
 
 
 def groups(request):
@@ -90,7 +90,7 @@ def groups(request):
 
 	a = Group.objects.all()
 
-	return render_page(request,'groups.html', {'list':a, 'formset':formset})
+	return render_page(request, 'groups.html', {'list':a, 'formset':formset})
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -99,15 +99,17 @@ def messages(request):
 	uid = getUserId(request)
 
 	#filter messages, display only messages with destination = user
-	list = Message.objects.filter(destination=uid)
+	list = Message.objects.filter(destination = uid)
 
-	return render_page(request,'messages.html', {'list':list})
+	return render_page(request, 'messages.html', {'list':list})
 
 
 @login_required(login_url = '/mainapp/login/')
-def new_message(request):
+def new_message(request, sender_id):
 	#get user id
-	uid = getUserId(request)
+	user = getUser(request)
+	#get destination
+	dest = Person.objects.get(name = sender_id)
 	#print request.POST
 	#
 	if request.method == 'POST':
@@ -116,7 +118,8 @@ def new_message(request):
 		if formset.is_valid():
 			#add sender
 			f = formset.save(commit = False)
-			f.sender = uid
+			f.sender = user
+			f.destination = dest
 			f.save()
 			#
 			return redirect('/mainapp/messages/')
@@ -125,7 +128,7 @@ def new_message(request):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_page(request, 'new_message.html', {'formset':formset})
+	return render_page(request, 'new_message.html', {'formset':formset,'destination':dest.name})
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -136,7 +139,8 @@ def showid(request, name_id):
 	else:
 		t = []
 
-	return render_page(request,'show.html', {'persons':a, 'tags':t})
+	return render_page(request, 'show.html', {'persons':a, 'tags':t})
+
 
 @login_required(login_url = '/mainapp/login/')
 def profile(request):
@@ -149,7 +153,8 @@ def profile(request):
 	else:
 		t = []
 
-	return render_page(request,'show.html', {'person':a, 'tags':t})
+	return render_page(request, 'show.html', {'person':a, 'tags':t})
+
 
 def json_person(request):
 	a = Person.objects.all()

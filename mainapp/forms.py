@@ -17,4 +17,4 @@ class LoginForm(forms.Form):
 class MessageForm(forms.ModelForm):
 	class Meta:
 		model = Message
-		exclude = ('sender',)
+		exclude = ('sender','destination')

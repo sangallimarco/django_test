@@ -12,7 +12,9 @@
 	<div class="span9">
 		<div class="container">
 
-
+			<section id="newmessage">
+				<a class="btn btn-primary" href="../new_message/0/">New Message</a>
+			</section>
 			<section id="messages">
 				<div class="page-header">
 					<h1>Received</h1>
@@ -22,7 +24,8 @@
 					<legend>List</legend>
 					<tr><th>From</th><th>Message</th></tr>
 					{% for item in list %}
-						<tr><td>{{ item.sender }}</td><td>{{ item.message }}</td></tr>
+						<tr><td>{{ item.sender }}</td><td>{{ item.message }}</td><td><a class="btn btn-primary" href=".
+						./new_message/{{ item.sender }}/">Reply</a></td></tr>
 					{% endfor %}
 				</table>
 

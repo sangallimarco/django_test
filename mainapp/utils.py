@@ -2,6 +2,7 @@ from django.conf import settings
 from models import Person
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+import os.path
 
 def render_page(request, template, data):
 	"""
@@ -16,6 +17,7 @@ def render_page(request, template, data):
 		user = None
 	#
 	data['user'] = user
+	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#
 	return render_to_response('mainapp/templates/%s' % template,
 	                          data,

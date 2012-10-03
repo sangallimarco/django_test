@@ -13,7 +13,7 @@ urlpatterns = patterns('mainapp',
 					   url(r'^logout/$', 'views.log_out'),
 
 					   url(r'^messages/$', 'views.messages'),
-					   url(r'^new_message/$', 'views.new_message'),
+					   url(r'^new_message/(?P<sender_id>.*)/$', 'views.new_message'),
 
                        url(r'^profile/$','views.profile'),
 
