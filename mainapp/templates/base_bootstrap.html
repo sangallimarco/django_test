@@ -25,11 +25,14 @@
 				<a class="brand" href="#">StreetMate</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="/mainapp/index/">Home</a></li>
-						<li><a href="/mainapp/login/">Login</a></li>
-						<li><a href="#contact">Profile</a></li>
-						<li><a href="#contact">Messages</a></li>
+						<li class="active"><a href="../index/">Home</a></li>
+						<li><a href="../login/">Login</a></li>
+						<li><a href="../profile/">Profile</a></li>
+						<li><a href="../messages/">Messages</a></li>
 					</ul>
+					{% if user %}
+						Welcome <a href="../profile/" class='btn btn-info'>{{ user }}</a>
+					{% endif %}
 				</div><!--/.nav-collapse -->
 			</div>
 		</div>

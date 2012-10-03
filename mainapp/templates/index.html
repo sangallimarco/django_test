@@ -20,7 +20,7 @@
 				<div>
 					<table class="table table-bordered table-hover">
 						<tr><th>name</th><th>Link</th></tr>
-						{% for p in persons %}
+						{% for p in list %}
 							<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='../{{ p.id }}/'">Details</button></td></tr>
 						{% endfor %}
 					</table>

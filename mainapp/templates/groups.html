@@ -1,6 +1,6 @@
 <h1>GROUPS</h1>
 <ul>
-    {% for p in groups %}
+    {% for p in list %}
         <li><a href='{{ p.id }}/'>show</a> {{ p.name|upper }}</li>
     {% endfor %}
 </ul>

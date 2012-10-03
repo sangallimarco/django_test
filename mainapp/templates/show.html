@@ -20,7 +20,7 @@
 			<div><img src="{{ MEDIA_URL }}{{ person.img }}"/></div>
 			<table class="table table-bordered table-hover">
 				<legend>Tags</legend>
-				<tr><th>name</th><th>Link</th></tr>
+				<tr><th>ID</th><th>Name</th></tr>
 				{% for p in tags %}
 			        <td>{{ p.id }}</td><td>{{ p.name }}</td>
 				{% endfor %}

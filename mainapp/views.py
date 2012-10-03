@@ -1,7 +1,4 @@
-from django.shortcuts import render_to_response
 from django.shortcuts import redirect
-from django.template import RequestContext
-from django import forms
 from django.forms.models import modelformset_factory
 from django.core import serializers
 from django.http import HttpResponse
@@ -9,8 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 #from django.views.decorators.csrf import csrf_protect
+
 from models import *
 from forms import *
+from utils import *
+
+
+
 
 def index(request):
 	"""
@@ -25,7 +27,7 @@ def index(request):
 			except:
 				print "duplicated keys"
 			else:
-				return redirect('/mainapp/login/')
+				return redirect('/mainapp/index/')
 			#add tags
 	else:
 		p = Person()
@@ -33,8 +35,7 @@ def index(request):
 
 	a = Person.objects.all()
 
-	return render_to_response('mainapp/templates/index.html', {'persons':a, 'formset':formset},
-	                          context_instance = RequestContext(request))
+	return render_page(request,'index.html', {'list':a, 'formset':formset})
 
 
 def log_in(request):
@@ -53,8 +54,7 @@ def log_in(request):
 	else:
 		formset = LoginForm()
 
-	return render_to_response('mainapp/templates/login.html', {'formset':formset},
-	                          context_instance = RequestContext(request))
+	return render_page(request,'login.html', {'formset':formset})
 
 
 def tags(request):
@@ -69,8 +69,8 @@ def tags(request):
 		formset = TagsFormSet()
 
 	a = Tag.objects.all()
-	return render_to_response('mainapp/templates/tags.html', {'tags':a, 'formset':formset},
-	                          context_instance = RequestContext(request))
+
+	return render_page(request,'tags.html', {'list':a, 'formset':formset})
 
 
 def groups(request):
@@ -85,25 +85,25 @@ def groups(request):
 		formset = GroupsFormSet()
 
 	a = Group.objects.all()
-	return render_to_response('mainapp/templates/groups.html', {'groups':a, 'formset':formset},
-	                          context_instance = RequestContext(request))
+
+	return render_page(request,'groups.html', {'list':a, 'formset':formset})
 
 
 @login_required(login_url = '/mainapp/login/')
 def messages(request):
-	#filter messages, display only messages with destination = user
-	user = User.objects.get(username = request.user)
-	print user
-	list = Message.objects.filter()
+	#get user id
+	uid = getUserId(request)
 
-	return render_to_response('mainapp/templates/messages.html', {'list':list},
-	                          context_instance = RequestContext(request))
+	#filter messages, display only messages with destination = user
+	list = Message.objects.filter(destination=uid)
+
+	return render_page(request,'messages.html', {'list':list})
 
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request):
-	#get uid
-	uid = Person.objects.get(name = request.user)
+	#get user id
+	uid = getUserId(request)
 	#print request.POST
 	#
 	if request.method == 'POST':
@@ -111,7 +111,7 @@ def new_message(request):
 		#
 		if formset.is_valid():
 			#add sender
-			f = formset.save(commit=False)
+			f = formset.save(commit = False)
 			f.sender = uid
 			f.save()
 			#
@@ -121,23 +121,31 @@ def new_message(request):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_to_response('mainapp/templates/new_message.html', {'formset':formset},
-	                          context_instance = RequestContext(request))
+	return render_page(request, 'new_message.html', {'formset':formset})
 
 
 @login_required(login_url = '/mainapp/login/')
 def showid(request, name_id):
-	"""
-	select row
-	"""
 	a = Person.objects.get(id = name_id)
 	if a:
 		t = a.tags.all()
 	else:
 		t = []
-	return render_to_response('mainapp/templates/show.html', {'person':a, 'tags':t},
-	                          context_instance = RequestContext(request))
 
+	return render_page(request,'show.html', {'persons':a, 'tags':t})
+
+@login_required(login_url = '/mainapp/login/')
+def profile(request):
+	#get user id
+	a = getUser(request)
+	print a.name
+	#get tags
+	if a:
+		t = a.tags.all()
+	else:
+		t = []
+
+	return render_page(request,'show.html', {'person':a, 'tags':t})
 
 def json_person(request):
 	a = Person.objects.all()
