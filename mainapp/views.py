@@ -99,7 +99,7 @@ def messages(request):
 	uid = getUserId(request)
 
 	#filter messages, display only messages with destination = user
-	list = Message.objects.filter(destination = uid)
+	list = Message.objects.filter(destination = uid).order_by('ts').reverse()
 
 	return render_page(request, 'messages.html', {'list':list})
 
@@ -109,7 +109,11 @@ def new_message(request, sender_id):
 	#get user id
 	user = getUser(request)
 	#get destination
-	dest = Person.objects.get(name = sender_id)
+	try:
+		dest = Person.objects.get(name = sender_id)
+	except:
+		return redirect('/mainapp/messages/')
+
 	#print request.POST
 	#
 	if request.method == 'POST':
@@ -130,7 +134,36 @@ def new_message(request, sender_id):
 
 	return render_page(request, 'new_message.html', {'formset':formset,'destination':dest.name})
 
+def reply_message(request, message_id):
+	#get user id
+	user = getUser(request)
+	#get destination
+	try:
+		message = Message.objects.get(id = message_id)
+		dest = message.sender
+	except:
+		return redirect('/mainapp/messages/')
 
+	#print request.POST
+	#
+	if request.method == 'POST':
+		formset = MessageForm(request.POST)
+		#
+		if formset.is_valid():
+			#add sender
+			f = formset.save(commit = False)
+			f.sender = user
+			f.destination = dest
+			f.save()
+			#
+			return redirect('/mainapp/messages/')
+		#add tags
+	else:
+		p = Message()
+		formset = MessageForm(instance = p)
+
+	return render_page(request, 'new_message.html',
+	                   {'formset':formset, 'destination':dest.name, 'message':message.message})
 @login_required(login_url = '/mainapp/login/')
 def showid(request, name_id):
 	a = Person.objects.get(id = name_id)

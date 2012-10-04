@@ -14,6 +14,7 @@ urlpatterns = patterns('mainapp',
 
 					   url(r'^messages/$', 'views.messages'),
 					   url(r'^new_message/(?P<sender_id>.*)/$', 'views.new_message'),
+					   url(r'^reply_message/(?P<message_id>\d+)/$', 'views.reply_message'),
 
                        url(r'^profile/$','views.profile'),
 
