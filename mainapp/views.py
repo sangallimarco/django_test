@@ -132,7 +132,8 @@ def new_message(request, sender_id):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_page(request, 'new_message.html', {'formset':formset,'destination':dest.name})
+	return render_page(request, 'new_message.html', {'formset':formset, 'destination':dest.name})
+
 
 def reply_message(request, message_id):
 	#get user id
@@ -143,6 +144,10 @@ def reply_message(request, message_id):
 		dest = message.sender
 	except:
 		return redirect('/mainapp/messages/')
+	else:
+		#update to viewed
+		message.status = 1
+		message.save()
 
 	#print request.POST
 	#
@@ -163,7 +168,9 @@ def reply_message(request, message_id):
 		formset = MessageForm(instance = p)
 
 	return render_page(request, 'new_message.html',
-	                   {'formset':formset, 'destination':dest.name, 'message':message.message})
+	                   {'formset':formset, 'destination':dest.name, 'message':message})
+
+
 @login_required(login_url = '/mainapp/login/')
 def showid(request, name_id):
 	a = Person.objects.get(id = name_id)
