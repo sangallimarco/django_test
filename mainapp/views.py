@@ -170,7 +170,7 @@ def reply_message(request, message_id):
 		formset = MessageForm(instance = p)
 
 	return render_page(request, 'new_message.html',
-	                   {'formset':formset, 'destination':dest.name, 'list':list})
+	                   {'formset':formset, 'destination':dest.name, 'list':list, 'message':message})
 
 
 @login_required(login_url = '/mainapp/login/')

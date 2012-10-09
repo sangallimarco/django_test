@@ -5,19 +5,30 @@
 
 	<div class="span3 bs-docs-sidebar">
 		<ul class="nav nav-list bs-docs-sidenav affix">
-			<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
-			<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
+			<li><a href="#message"><i class="icon-chevron-right"></i>Message</a></li>
+			<li><a href="#forms"><i class="icon-chevron-right"></i>New Message</a></li>
+			<li><a href="#messages"><i class="icon-chevron-right"></i>Messages</a></li>
 		</ul>
 	</div>
 
 	<div class="span9">
 		<div class="container">
 
+			<section id="message">
+				<div class="page-header">
+					<h1>Message from:{{ destination }}</h1>
+				</div>
+				<blockquote>
+					<p class="text-success">{{ message.message }}</p>
+					<small>{{ message.ts }}</small>
+				</blockquote>
+			</section>
+
 			<section id="forms">
 
 				<form id="insertform" method='POST' enctype="multipart/form-data">
 					<div class="page-header">
-						<h1>Send Message to:{{ destination }}</h1>
+						<h1>Reply to:{{ destination }}</h1>
 					</div>
 
 					{% for field in formset %}
@@ -53,18 +64,16 @@
 					{% for item in list %}
 						<tr>
 							<td><a class="btn btn-block
-														{% if user.id != item.sender.id %}
-															btn-primary
-														{% else %}
-															btn-danger
-														{% endif %}
-											" href="../{{ item.id }}/">
-								{% if status == 0 %}
-									<i class="icon-tag icon-white"></i>
-								{% else %}
-									<i class="icon-tags icon-white"></i>
-								{% endif %}
-								{{ item.sender }}
+														{% if user.id == item.sender.id %}
+															">
+							{% elif item.status == 1 %}
+								btn-success" href="../{{ item.id }}/"><i class="icon-tags
+															 icon-white"></i>
+							{% else %}
+								btn-danger" href="../{{ item.id }}/"><i class="icon-tag icon-white"></i>
+							{% endif %}
+
+							{{ item.sender }}
 							</a></td>
 							<td>{{ item.ts }}</td>
 							<td>{{ item.message }}</td>
