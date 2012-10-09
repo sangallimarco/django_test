@@ -58,7 +58,7 @@
 														{% else %}
 															btn-danger
 														{% endif %}
-											" href="../reply_message/{{ item.id }}/">
+											" href="../{{ item.id }}/">
 								{% if status == 0 %}
 									<i class="icon-tag icon-white"></i>
 								{% else %}
@@ -66,8 +66,8 @@
 								{% endif %}
 								{{ item.sender }}
 							</a></td>
-							<td>{{ item.ts|date:"d/m/y P"|lower }}??</td>
-							<td>{{ item.sender.id }}{{ user.id }}{{ item.message }}</td>
+							<td>{{ item.ts }}</td>
+							<td>{{ item.message }}</td>
 
 						</tr>
 					{% endfor %}
