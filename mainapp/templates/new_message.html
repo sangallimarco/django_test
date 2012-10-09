@@ -36,10 +36,36 @@
 				</form>
 
 			</section>
-			<section id="previous">
+
+			<section id="messages">
 				<div class="page-header">
-					{{ message.message }}
+					<h1>Received</h1>
 				</div>
+
+				<table class="table table-bordered table-hover">
+					<legend>List</legend>
+					<tr>
+						<th>From</th>
+						<th>Message</th>
+						<th>Status</th>
+					</tr>
+
+					{% for item in list %}
+						<tr>
+							<td><a class="btn btn-block btn-primary" href=".
+						./reply_message/{{ item.id }}/"><i class="icon-user icon-white"></i
+									>{{ item.sender }}</a></td>
+							<td>{{ item.message }}</td>
+							<td>{% if status == 0 %}
+									<i class="icon-bell"></i>
+								{% else %}
+									<i class="icon-adjust"></i>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+
+				</table>
 
 			</section>
 		</div>

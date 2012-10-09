@@ -1,0 +1,11 @@
+{#include "components/list.html"#}
+<table class="table table-bordered table-hover">
+	<legend>List</legend>
+	<tr><th>From</th><th>Message</th><th>Status</th></tr>
+	{% for item in list %}
+		<tr><td><a class="btn btn-block btn-primary" href=".
+					./reply_message/{{ item.id }}/">{{ item.sender }}</a></td><td>
+			{{ item.message }}</td><td>{{ item.status }}</td></tr>
+	{% endfor %}
+</table>
+
