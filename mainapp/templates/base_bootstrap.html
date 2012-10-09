@@ -30,7 +30,7 @@
 						<li><a href="{{ APP_PATH }}index/">Home</a></li>
 						<li><a href="{{ APP_PATH }}profile/">Profile</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages</a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages <span class="badge">{{ counter }}</span></a>
 							<ul class="dropdown-menu">
 								<li><a href="{{ APP_PATH }}messages/">List</a></li>
 							</ul>
@@ -38,8 +38,7 @@
 					</ul>
 					<p class="navbar-text pull-right">
 					{% if user %}
-						Welcome <a href="{{ APP_PATH }}profile/" class='btn btn-info btn-small'
-							>{{ user.name }}</a></li>
+						Welcome <a href="{{ APP_PATH }}profile/" class='btn btn-info btn-small'>{{ user.name }}</a>
 						<a href="{{ APP_PATH }}logout/" class='btn btn-info btn-small'>Logout</a>
 					{% else %}
 						<a href="{{ APP_PATH }}login/" class='btn btn-info btn-small'>Login</a>
@@ -50,10 +49,10 @@
 		</div>
 	</div>
 
-	<div class="row">
-
+	<div class="container-fluid">
+		<div class="row-fluid">
 			{% block content %}{% endblock %}
-
+		</div>
 	</div>
 
 </body>

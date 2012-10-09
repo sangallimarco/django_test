@@ -1,5 +1,5 @@
 from django.conf import settings
-from models import Person
+from models import *
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import os.path
@@ -15,8 +15,11 @@ def render_page(request, template, data):
 		user = Person.objects.get(name = request.user)
 	else:
 		user = None
+	#get unread messages
+	counter = Message.getUnreadCounter(user)
 	#
 	data['user'] = user
+	data['counter'] = counter
 	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#
 	return render_to_response('mainapp/templates/%s' % template,

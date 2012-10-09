@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q,Count
 
 # Create your models here.
 def getNaturalKeys(d):
@@ -118,6 +118,11 @@ class Message(models.Model):
 	@classmethod
 	def getAllMessages(cls, uid):
 		return cls.objects.filter(Q(sender = uid) | Q(destination = uid)).order_by("-id")
+
+	@classmethod
+	def getUnreadCounter(cls, uid):
+		#cnt = cls.objects.filter(destination = uid, status = 0).annotate(cnt = Count('id'))[0].cnt
+		return len(cls.objects.filter(destination = uid, status = 0))
 
 
 class Picture(models.Model):
