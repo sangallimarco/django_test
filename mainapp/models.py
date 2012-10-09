@@ -108,13 +108,16 @@ class Message(models.Model):
 	def __unicode__(self):
 		return self.message
 
+	class Meta:
+		ordering = ('id',)
+
 	@classmethod
 	def getMessages(cls, uid):
-		return cls.objects.filter(destination = uid).order_by("destination", "id").reverse().distinct("destination")
+		return cls.objects.filter(destination = uid).order_by("destination", "status","-id").distinct("destination")
 
 	@classmethod
 	def getAllMessages(cls, uid):
-		return cls.objects.filter(Q(sender = uid) | Q(destination = uid)).order_by("id").reverse()
+		return cls.objects.filter(Q(sender = uid) | Q(destination = uid)).order_by("-id")
 
 
 class Picture(models.Model):

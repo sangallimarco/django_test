@@ -28,14 +28,18 @@
 					{% for item in list %}
 						<tr>
 							<td>
-								<a class="btn btn-block btn-primary" href=".
-						./reply_message/{{ item.id }}/">{{ item.sender }}
-									{% if item.status == 0 %}
-										<i class="icon-tag icon-white"></i>
-									{% else %}
-										<i class="icon-tags icon-white"></i>
-									{% endif %}
-								</a></td>
+								{% if item.status == 0 %}
+									<a class="btn btn-block btn-danger" href="../reply_message/{{ item.id }}/"><i class="icon-tag icon-white"></i>
+									{{ item.sender }}</a>
+									<i class="icon-chevron-right"></i>
+									<small>{{ item.ts|date:"d/m/y P" }}</small>
+								{% else %}
+									<a class="btn btn-block btn-success" href="../reply_message/{{ item.id }}/"><i class="icon-tags icon-white"></i>
+									{{ item.sender }}</a>
+									<i class="icon-chevron-left"></i>
+									<small>{{ item.replied|date:"d/m/y P" }}</small>
+								{% endif %}
+							</td>
 							<td>{{ item.ts }}</td>
 							<td>{{ item.message }}</td>
 						</tr>
