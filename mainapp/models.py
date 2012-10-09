@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 # Create your models here.
 def getNaturalKeys(d):
@@ -106,6 +107,14 @@ class Message(models.Model):
 
 	def __unicode__(self):
 		return self.message
+
+	@classmethod
+	def getMessages(cls, uid):
+		return cls.objects.filter(destination = uid).order_by("destination", "id").reverse().distinct("destination")
+
+	@classmethod
+	def getAllMessages(cls, uid):
+		return cls.objects.filter(Q(sender = uid) | Q(destination = uid)).order_by("id").reverse()
 
 
 class Picture(models.Model):

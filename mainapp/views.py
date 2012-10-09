@@ -4,7 +4,6 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q
 from django.contrib.auth.models import User
 #from django.views.decorators.csrf import csrf_protect
 
@@ -100,7 +99,7 @@ def messages(request):
 	uid = getUserId(request)
 
 	#filter messages, display only messages with destination = user
-	list = Message.objects.filter(destination = uid).order_by("destination",'ts').reverse().distinct("destination")
+	list = Message.getMessages(uid)
 
 	return render_page(request, 'messages.html', {'list':list})
 
@@ -150,7 +149,7 @@ def reply_message(request, message_id):
 		message.status = 1
 		message.save()
 		#get list of related messages
-		list = Message.objects.filter(Q(sender = dest) | Q(destination = dest )).order_by("id").reverse()
+		list = Message.getAllMessages(dest)
 
 	#print request.POST
 	#

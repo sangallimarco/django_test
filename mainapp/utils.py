@@ -12,7 +12,7 @@ def render_page(request, template, data):
 	#add user datails
 	print request.user
 	if request.user.is_authenticated():
-		user = Person.objects.get(name = request.user).name
+		user = Person.objects.get(name = request.user)
 	else:
 		user = None
 	#

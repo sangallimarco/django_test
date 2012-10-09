@@ -20,18 +20,30 @@
 				<table class="table table-bordered table-hover">
 					<legend>List</legend>
 					<tr>
-						<th>From</th>
-						<th>Message</th>
-						<th>Status</th>
+						<th class="span2">From</th>
+						<th class='span3'>Date</th>
+						<th class='span4'>Message</th>
 					</tr>
 
 					{% for item in list %}
 						<tr>
-							<td><a class="btn btn-block btn-primary" href=".
-						./reply_message/{{ item.id }}/"><i class="icon-user icon-white"></i
-									>{{ item.sender }}</a></td>
+							<td>
+								<a class="btn btn-block btn-primary" href=".
+						./reply_message/{{ item.id }}/">{{ item.sender }}
+									{% if status == 0 %}
+										<i class="icon-tag icon-white"></i>
+									{% else %}
+										<i class="icon-tags icon-white"></i>
+									{% endif %}
+								</a></td>
+							<td>{{ item.ts }}</td>
 							<td>{{ item.message }}</td>
-							<td>{{ item.status }}</td>
+							<td>{% if status == 0 %}
+								<i class="icon-tag"></i>
+							{% else %}
+								<i class="icon-tags"></i>
+							{% endif %}
+							</td>
 						</tr>
 					{% endfor %}
 

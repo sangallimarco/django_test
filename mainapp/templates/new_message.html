@@ -45,23 +45,30 @@
 				<table class="table table-bordered table-hover">
 					<legend>List</legend>
 					<tr>
-						<th>From</th>
+						<th class="span2">From</th>
+						<th class="span2">Date</th>
 						<th>Message</th>
-						<th>Status</th>
 					</tr>
 
 					{% for item in list %}
 						<tr>
-							<td><a class="btn btn-block btn-primary" href=".
-						./reply_message/{{ item.id }}/"><i class="icon-user icon-white"></i
-									>{{ item.sender }}</a></td>
-							<td>{{ item.message }}</td>
-							<td>{% if status == 0 %}
-									<i class="icon-bell"></i>
+							<td><a class="btn btn-block
+														{% if user.id != item.sender.id %}
+															btn-primary
+														{% else %}
+															btn-danger
+														{% endif %}
+											" href="../reply_message/{{ item.id }}/">
+								{% if status == 0 %}
+									<i class="icon-tag icon-white"></i>
 								{% else %}
-									<i class="icon-adjust"></i>
+									<i class="icon-tags icon-white"></i>
 								{% endif %}
-							</td>
+								{{ item.sender }}
+							</a></td>
+							<td>{{ item.ts|date:"d/m/y P"|lower }}??</td>
+							<td>{{ item.sender.id }}{{ user.id }}{{ item.message }}</td>
+
 						</tr>
 					{% endfor %}
 
@@ -72,29 +79,29 @@
 	</div>
 
 	<script>
-		$(document).ready(function(){
+		$(document).ready(function () {
 			$('#insertform').validate({
-				rules: {
-					"name": {
-						minlength: 2,
-						required: true
+				rules:{
+					"name":{
+						minlength:2,
+						required:true
 					},
-					"surname": {
-						minlength: 2,
-						required: true
+					"surname":{
+						minlength:2,
+						required:true
 					},
-					"tags": {
-						required: true
+					"tags":{
+						required:true
 					},
-					"groups": {
-						required: true
+					"groups":{
+						required:true
 					}
 				},
-				highlight: function(label) {
+				highlight:function (label) {
 					$(label).closest('.control-group').removeClass('success').addClass('error');
 					console.log('error');
 				},
-				success: function(label) {
+				success:function (label) {
 					$(label).closest('.control-group').removeClass('error').addClass('success');
 				}
 			});
