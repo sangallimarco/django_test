@@ -103,6 +103,11 @@ def messages(request):
 
 	return render_page(request, 'messages.html', {'list':list})
 
+@login_required(login_url = '/mainapp/login/')
+def contacts(request):
+	#get user id
+	a = Person.objects.all()
+	return render_page(request, 'contacts.html', {'list':a})
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):

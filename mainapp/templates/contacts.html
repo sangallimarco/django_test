@@ -1,0 +1,34 @@
+{% extends "base_bootstrap.html" %}
+{% block title %}MESSAGE{% endblock %}
+{% block subnav %}{% include "subnav/messages.html" %}{% endblock %}
+{% block content %}
+
+	<div class="span10">
+		<div class="container">
+
+			<section id="messages">
+				<div class="page-header">
+					<h1>Contacts</h1>
+				</div>
+
+				<table class="table table-bordered table-hover">
+					<legend>List</legend>
+					<tr>
+						<th class="span2">Name</th>
+						<th class='span3'>Message</th>
+					</tr>
+
+					{% for item in list %}
+						<tr>
+							<td>{{ item.name|upper }}</td>
+							<td><button class="btn btn-primary" type="button" onclick="document.location.href='{{ APP_PATH }}new_message/{{ item.name }}/'">Message</button></td>
+						</tr>
+					{% endfor %}
+
+				</table>
+
+			</section>
+
+		</div>
+	</div>
+{% endblock %}
