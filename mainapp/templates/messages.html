@@ -23,12 +23,12 @@
 						<tr>
 							<td>
 								{% if item.status == 0 %}
-									<a class="btn btn-block btn-danger" href="../reply_message/{{ item.id }}/"><i class="icon-tag icon-white"></i>
+									<a class="btn btn-block btn-small btn-danger" href="../reply_message/{{ item.id }}/"><i class="icon-tag icon-white"></i>
 									{{ item.sender }}</a>
 									<i class="icon-chevron-right"></i>
 									<small>{{ item.ts|date:"d/m/y P" }}</small>
 								{% else %}
-									<a class="btn btn-block btn-success" href="../reply_message/{{ item.id }}/"><i class="icon-tags icon-white"></i>
+									<a class="btn btn-block btn-small btn-success" href="../reply_message/{{ item.id }}/"><i class="icon-tags icon-white"></i>
 									{{ item.sender }}</a>
 									<i class="icon-chevron-left"></i>
 									<small>{{ item.replied|date:"d/m/y P" }}</small>

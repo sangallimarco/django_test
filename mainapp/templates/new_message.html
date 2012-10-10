@@ -41,7 +41,7 @@
 						{% endfor %}
 
 						{% csrf_token %}
-						<input type='submit' class="btn btn-primary" name='Save' value='Send'/>
+						<input type='submit' class="btn btn-small btn-primary" name='Save' value='Send'/>
 
 					</form>
 
@@ -85,21 +85,21 @@
 							<td>
 							{% if user.id == item.sender.id %}
 								{% if item.status == 0 %}
-									<a class="btn btn-block btn-danger"><i class="icon-bell icon-white"></i>Me</a>
+									<a class="btn btn-small btn-block btn-danger"><i class="icon-bell icon-white"></i>Me</a>
 									<i class="icon-chevron-right"></i>
 									<small>{{ item.ts|date:"d/m/y P" }}</small>
 								{% else %}
-									<a class="btn btn-block">Me</a>
+									<a class="btn btn-small btn-block">Me</a>
 									<i class="icon-chevron-left"></i>
 									<small>{{ item.replied|date:"d/m/y P" }}</small>
 								{% endif %}
 							{% elif item.status == 1 %}
-								<a class="btn btn-block btn-success" href="../{{ item.id }}/"><i class="icon-tags icon-white"></i>
+								<a class="btn btn-small btn-block btn-success" href="../{{ item.id }}/"><i class="icon-tags icon-white"></i>
 								{{ item.sender }}</a>
 								<i class="icon-chevron-left"></i>
 								<small>{{ item.replied|date:"d/m/y P" }}</small>
 							{% else %}
-								<a class="btn btn-block btn-danger" href="../{{ item.id }}/"><i class="icon-tag icon-white"></i>
+								<a class="btn btn-small btn-block btn-danger" href="../{{ item.id }}/"><i class="icon-tag icon-white"></i>
 								{{ item.sender }}</a>
 								<i class="icon-chevron-right"></i>
 								<small>{{ item.ts|date:"d/m/y P" }}</small>
