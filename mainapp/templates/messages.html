@@ -1,15 +1,9 @@
 {% extends "base_bootstrap.html" %}
 {% block title %}MESSAGE{% endblock %}
+{% block subnav %}{% include "subnav/messages.html" %}{% endblock %}
 {% block content %}
 
-	<div class="span3 bs-docs-sidebar">
-		<ul class="nav nav-list bs-docs-sidenav affix">
-			<li><a href="#new"><i class="icon-chevron-right"></i>New</a></li>
-			<li><a href="#received"><i class="icon-chevron-right"></i>Messages</a></li>
-		</ul>
-	</div>
-
-	<div class="span9">
+	<div class="span10">
 		<div class="container">
 
 			<section id="messages">

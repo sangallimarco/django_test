@@ -1,52 +1,72 @@
 {% extends "base_bootstrap.html" %}
 {% block pagetitle %}NEW MESSAGE{% endblock %}
 {% block title %}NEW MESSAGE{% endblock %}
+{% block subnav %}{% include "subnav/messages.html" %}{% endblock %}
 {% block content %}
-
-	<div class="span3 bs-docs-sidebar">
-		<ul class="nav nav-list bs-docs-sidenav affix">
-			<li><a href="#message"><i class="icon-chevron-right"></i>Message</a></li>
-			<li><a href="#forms"><i class="icon-chevron-right"></i>New Message</a></li>
-			<li><a href="#messages"><i class="icon-chevron-right"></i>Messages</a></li>
-		</ul>
-	</div>
 
 	<div class="span9">
 		<div class="container">
 
-			<section id="message">
-				<div class="page-header">
-					<h1>Message from:{{ destination }}</h1>
-				</div>
-				<blockquote>
-					<p class="text-success">{{ message.message }}</p>
-					<small>{{ message.ts }}</small>
-				</blockquote>
-			</section>
+			<div class="span5">
+				<section id="message">
+					<div class="page-header">
+						<h2>From: {{ destination }}</h2>
+					</div>
+					<blockquote>
+						<p class="text-success">{{ message.message }}</p>
+						<small>{{ message.ts }}</small>
+					</blockquote>
+				</section>
+			</div>
 
-			<section id="forms">
 
-				<form id="insertform" method='POST' enctype="multipart/form-data">
-					<!--<div class="page-header">
-						<h1>Reply to:{{ destination }}</h1>
-					</div>-->
+			<div class="span5">
+				<section id="forms">
+					<div class="page-header">
+						<h2>Reply</h2>
+					</div>
+					<form id="insertform" method='POST' enctype="multipart/form-data">
+						<!--<div class="page-header">
+							<h1>Reply to:{{ destination }}</h1>
+						</div>-->
 
-					{% for field in formset %}
-						<div class="control-group">
-							{{ field.label_tag }}
-							<div class="controls">
-								{{ field }}
-								<span class="help-inline"></span>
+						{% for field in formset %}
+							<div class="control-group">
+								{{ field.label_tag }}
+								<div class="controls">
+									{{ field }}
+									<span class="help-inline"></span>
+								</div>
 							</div>
+						{% endfor %}
+
+						{% csrf_token %}
+						<input type='submit' class="btn btn-primary" name='Save' value='Send'/>
+
+					</form>
+
+				</section>
+			</div>
+
+		</div>
+		<div class="container">
+
+			<!--
+			<section id="messages">
+				<div class="page-header">
+					<h1>Received</h1>
+				</div>
+				{% for item in list %}
+					<div class="popover right">
+						<div class="arrow"></div>
+						<h3 class="popover-title">{{ item.sender }}<small>{{ item.ts|date:"d/m/y P" }}</small></h3>
+						<div class="popover-content">
+							{{ item.message }}
 						</div>
-					{% endfor %}
-
-					{% csrf_token %}
-					<input type='submit' class="btn btn-primary" name='Save' value='Send'/>
-
-				</form>
-
+					</div>
+				{% endfor %}
 			</section>
+			-->
 
 			<section id="messages">
 				<div class="page-header">
@@ -93,6 +113,8 @@
 				</table>
 
 			</section>
+
+
 		</div>
 	</div>
 
