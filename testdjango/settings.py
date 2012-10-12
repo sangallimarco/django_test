@@ -116,6 +116,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'south',
+    'django_evolution',
 	#'bootstrap',
 	'mainapp',
 

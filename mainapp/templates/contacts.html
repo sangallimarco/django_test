@@ -10,18 +10,25 @@
 				<div class="page-header">
 					<h1>Contacts</h1>
 				</div>
+				<form method="POST">
+					<div class="input-append">
+						<input class="span4" id="search" name="search" size="16" type="text" value="{{ search }}"><input class="btn" type="submit">Go!</button>
+					</div>
+					{% csrf_token %}
+				</form>
 
 				<table class="table table-bordered table-hover">
 					<legend>List</legend>
 					<tr>
 						<th class="span2">Name</th>
-						<th class='span3'>Message</th>
+						<th class='span9'>Profile</th>
 					</tr>
 
 					{% for item in list %}
 						<tr>
-							<td>{{ item.name|upper }}</td>
-							<td><button class="btn btn-primary" type="button" onclick="document.location.href='{{ APP_PATH }}new_message/{{ item.name }}/'">Message</button></td>
+
+							<td><a class="btn btn-small btn-block btn-primary" href="{{ APP_PATH }}new_message/{{ item.name }}/">{{ item.name }}</a></td>
+							<td></td>
 						</tr>
 					{% endfor %}
 

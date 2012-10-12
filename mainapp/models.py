@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q,Count
+from django.core import serializers
 
-# Create your models here.
+# Follow Natural Keys
 def getNaturalKeys(d):
 	o = {}
 	for k, v in d.items():
@@ -15,6 +16,25 @@ class TagManager(models.Manager):
 	def get_by_natural_key(self, id):
 		return self.get(id = id)
 
+
+class Video(models.Model):
+	title = models.CharField(max_length = 250)
+	url = models.CharField(max_length = 250)
+
+	def __unicode__(self):
+		return self.title
+
+class Location(models.Model):
+	"""
+	Use google maps
+	"""
+	longitude = models.FloatField()
+	latitude = models.FloatField()
+	#cache google json response
+	cache = models.TextField(default="{}",null=True)
+
+	def getCache(self):
+		serializers.deserialize("json",self.cache)
 
 class Tag(models.Model):
 	#objects = TagManager()
@@ -29,6 +49,14 @@ class Tag(models.Model):
 
 	class Meta:
 		ordering = ('name',)
+
+class Picture(models.Model):
+	title = models.CharField(max_length = 250)
+	tag = models.ManyToManyField(Tag, verbose_name = "list of tags")
+	resource = models.CharField(max_length = 250)
+
+	def __unicode__(self):
+		return self.title
 
 
 class Group(models.Model):
@@ -54,12 +82,13 @@ class Group(models.Model):
 
 class Person(models.Model):
 	user = models.ForeignKey(User, null = True)
-
 	name = models.CharField(max_length = 200)
 	surname = models.CharField(max_length = 200)
+	email = models.CharField(max_length=200,default='',null=True)
 	tags = models.ManyToManyField(Tag, verbose_name = "list of tags")
 	groups = models.ManyToManyField(Group, verbose_name = "list of groups")
 	img = models.ImageField(upload_to = "pictures/%Y/%m/%d", null = True, blank = True)
+	location = models.ForeignKey(Location, null=True)
 
 	def Meta(self):
 		ordering = ["name"]
@@ -125,22 +154,3 @@ class Message(models.Model):
 		return len(cls.objects.filter(destination = uid, status = 0))
 
 
-class Picture(models.Model):
-	title = models.CharField(max_length = 250)
-	tag = models.ManyToManyField(Tag, verbose_name = "list of tags")
-	resource = models.CharField(max_length = 250)
-
-	def __unicode__(self):
-		return self.title
-
-
-class Video(models.Model):
-	title = models.CharField(max_length = 250)
-	url = models.CharField(max_length = 250)
-
-	def __unicode__(self):
-		return self.title
-
-
-class Geo(models.Model):
-	title = models.CharField(max_length = 250)

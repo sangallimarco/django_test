@@ -106,8 +106,18 @@ def messages(request):
 @login_required(login_url = '/mainapp/login/')
 def contacts(request):
 	#get user id
-	a = Person.objects.all()
-	return render_page(request, 'contacts.html', {'list':a})
+	if request.method == 'POST':
+		search = request.POST.get('search')
+		a = Person.objects.filter(name__startswith = search)
+		#into session
+		#request.session['search_contact'] = search
+	else:
+		a = Person.objects.all()
+		search = ""
+
+
+
+	return render_page(request, 'contacts.html', {'list':a, "search_contact":search})
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):

@@ -1,13 +1,8 @@
 {% extends "base_bootstrap.html" %}
 {% block title %}SHOW{% endblock %}
+{% block subnav %}{% include "subnav/profile.html" %}{% endblock %}
 {% block content %}
 
-<div class="span3 bs-docs-sidebar">
-	<ul class="nav nav-list bs-docs-sidenav affix">
-		<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
-		<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
-	</ul>
-</div>
 
 <div class="span9">
 	<div class="container">
@@ -17,7 +12,16 @@
 
 			</div>
 
-			<div><img src="{{ MEDIA_URL }}{{ person.img }}"/></div>
+			<div class="thumbnail span2">
+				<img src="{{ MEDIA_URL }}{{ person.img }}"/>
+			</div>
+
+			<div class="span5">
+				<ul>
+					<li>{{ person.location }}</li>
+				</ul>
+			</div>
+
 			<table class="table table-bordered table-hover">
 				<legend>Tags</legend>
 				<tr><th>ID</th><th>Name</th></tr>
