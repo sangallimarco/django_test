@@ -96,7 +96,7 @@ def groups(request):
 @login_required(login_url = '/mainapp/login/')
 def messages(request):
 	#get user id
-	uid = getUserId(request)
+	uid = getUser(request)
 
 	#filter messages, display only messages with destination = user
 	list = Message.getMessages(uid)
@@ -203,7 +203,6 @@ def showid(request, name_id):
 def profile(request):
 	#get user id
 	a = getUser(request)
-	print a.name
 	#get tags
 	if a:
 		t = a.tags.all()
