@@ -28,17 +28,16 @@
 
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li><a href="{{ APP_PATH }}index/"><i class="icon-home icon-white"></i> Home</a></li>
-					<li class="dropdown">
-						<a href="{{ APP_PATH }}messages/"><i class="icon-envelope icon-white"></i> Messages <span class="badge">{{ counter }}</span></a>
+					<li {% if MENU == "home" %}class="active"{% endif %}><a href="{{ APP_PATH }}index/"><i class="icon-home icon-white"></i> Home</a></li>
+					<li {% if MENU == "messages" %}class="active"{% endif %}><a href="{{ APP_PATH }}messages/"><i class="icon-envelope icon-white"></i> Messages <span class="badge">{{ COUNTER }}</span></a>
 					</li>
-					<li><a href="{{ APP_PATH }}search/"><i class="icon-search icon-white"></i> Search</a></li>
-					<li><a href="{{ APP_PATH }}match/"><i class="icon-eye-open icon-white"></i> Match</a></li>
-					<li><a href="{{ APP_PATH }}events/"><i class="icon-globe icon-white"></i> Events</a></li>
+					<li {% if MENU == "search" %}class="active"{% endif %}><a href="{{ APP_PATH }}search/"><i class="icon-search icon-white"></i> Search</a></li>
+					<li {% if MENU == "match" %}class="active"{% endif %}><a href="{{ APP_PATH }}match/"><i class="icon-eye-open icon-white"></i> Match</a></li>
+					<li {% if MENU == "events" %}class="active"{% endif %}><a href="{{ APP_PATH }}events/"><i class="icon-globe icon-white"></i> Events</a></li>
 				</ul>
 				<p class="navbar-text pull-right">
-					{% if user %}
-						Welcome <a href="{{ APP_PATH }}profile/" class='btn btn-small'>{{ user.name }}</a>
+					{% if USER %}
+						Welcome <a href="{{ APP_PATH }}profile/" class='btn btn-small'>{{ USER.name }}</a>
 						<a href="{{ APP_PATH }}logout/" class='btn btn-small'>Logout</a>
 					{% else %}
 						<a href="{{ APP_PATH }}login/" class='btn btn-small'>Login</a>
@@ -53,7 +52,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span2">
-			{% block subnav %}{% endblock %}
+			{% include SUBMENU %}
 		</div>
 		<div class="span8">
 			{% block content %}{% endblock %}

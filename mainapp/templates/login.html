@@ -1,6 +1,5 @@
 {% extends "base_bootstrap.html" %}
 {% block title %}LOGIN{% endblock %}
-{% block subnav %}{% include "subnav/default.html" %}{% endblock %}
 {% block content %}
 
 
@@ -9,6 +8,9 @@
 
 			<section id="login">
 				<form id="loginform" method="POST">
+					<div class="page-header">
+						<h1>Log In</h1>
+					</div>
 					{% for field in formset %}
 						<div class="control-group">
 							{{ field.label_tag }}

@@ -7,7 +7,7 @@ import os.path
 import urllib, urllib2
 from django.utils.encoding import smart_str
 
-def render_page(request, template, data):
+def render_page(request, template, data, menu = "home"):
 	"""
 	shortcut to render template
 	"""
@@ -16,8 +16,10 @@ def render_page(request, template, data):
 	#get unread messages
 	counter = Message.getUnreadCounter(user)
 	#
-	data['user'] = user
-	data['counter'] = counter
+	data['MENU'] = menu
+	data['SUBMENU'] = "subnav/%s.html" % menu
+	data['USER'] = user
+	data['COUNTER'] = counter
 	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#
 	return render_to_response('mainapp/templates/%s' % template,

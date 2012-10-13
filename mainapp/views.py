@@ -36,7 +36,7 @@ def sign_in(request):
 		p = Person()
 		formset = PersonForm(instance = p)
 
-	return render_page(request, 'signin.html', {'formset':formset})
+	return render_page(request, 'signin.html', {'formset':formset}, menu="home")
 
 def log_in(request):
 	if request.method == 'POST':
@@ -54,7 +54,7 @@ def log_in(request):
 	else:
 		formset = LoginForm()
 
-	return render_page(request, 'login.html', {'formset':formset})
+	return render_page(request, 'login.html', {'formset':formset}, menu="home")
 
 
 def log_out(request):
@@ -76,7 +76,7 @@ def tags(request):
 
 	a = Tag.objects.all()
 
-	return render_page(request, 'tags.html', {'list':a, 'formset':formset})
+	return render_page(request, 'tags.html', {'list':a, 'formset':formset}, menu="admin")
 
 
 def groups(request):
@@ -92,7 +92,7 @@ def groups(request):
 
 	a = Group.objects.all()
 
-	return render_page(request, 'groups.html', {'list':a, 'formset':formset})
+	return render_page(request, 'groups.html', {'list':a, 'formset':formset}, menu="admin")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -103,7 +103,7 @@ def messages(request):
 	#filter messages, display only messages with destination = user
 	list = Message.getMessages(uid)
 
-	return render_page(request, 'messages.html', {'list':list})
+	return render_page(request, 'messages.html', {'list':list}, menu="messages")
 
 @login_required(login_url = '/mainapp/login/')
 def contacts(request):
@@ -117,9 +117,7 @@ def contacts(request):
 		a = Person.objects.all()
 		search = ""
 
-
-
-	return render_page(request, 'contacts.html', {'list':a, "search_contact":search})
+	return render_page(request, 'contacts.html', {'list':a, "search_contact":search}, menu="messages")
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):
@@ -149,7 +147,7 @@ def new_message(request, sender_id):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_page(request, 'new_message.html', {'formset':formset, 'destination':dest.name})
+	return render_page(request, 'new_message.html', {'formset':formset, 'destination':dest.name}, menu="messages")
 
 
 def reply_message(request, message_id):
@@ -187,7 +185,7 @@ def reply_message(request, message_id):
 		formset = MessageForm(instance = p)
 
 	return render_page(request, 'new_message.html',
-	                   {'formset':formset, 'destination':dest.name, 'list':list, 'message':message})
+	                   {'formset':formset, 'destination':dest.name, 'list':list, 'message':message}, menu="messages")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -198,7 +196,7 @@ def showid(request, name_id):
 	else:
 		t = []
 
-	return render_page(request, 'show.html', {'persons':a, 'tags':t})
+	return render_page(request, 'show.html', {'persons':a, 'tags':t}, menu="profile")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -211,7 +209,7 @@ def profile(request):
 	else:
 		t = []
 
-	return render_page(request, 'show.html', {'person':a, 'tags':t})
+	return render_page(request, 'show.html', {'person':a, 'tags':t}, menu="profile")
 
 
 def json_person(request):
