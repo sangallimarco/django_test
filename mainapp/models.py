@@ -11,6 +11,7 @@ def getNaturalKeys(d):
 			o[k] = v
 	return o
 
+
 #when deserializing
 class TagManager(models.Manager):
 	def get_by_natural_key(self, id):
