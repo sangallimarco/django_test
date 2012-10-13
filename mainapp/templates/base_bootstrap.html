@@ -37,10 +37,10 @@
 				</ul>
 				<p class="navbar-text pull-right">
 					{% if USER %}
-						Welcome <a href="{{ APP_PATH }}profile/" class='btn btn-small'>{{ USER.name }}</a>
-						<a href="{{ APP_PATH }}logout/" class='btn btn-small'>Logout</a>
+						<a href="{{ APP_PATH }}profile/"><i class="icon-user icon-white"></i> {{ USER.name }}</a>
+						<a href="{{ APP_PATH }}logout/"><i class="icon-eject icon-white"></i> Logout</a>
 					{% else %}
-						<a href="{{ APP_PATH }}login/" class='btn btn-small'>Login</a>
+						<a href="{{ APP_PATH }}login/"><i class="icon-play icon-white"></i> Login</a>
 					{% endif %}
 				</p>
 			</div>

@@ -1,8 +1,9 @@
 <ul class="nav nav-stacked nav-list affix">
-	{% if user %}
-		<li><a href="{{ APP_PATH }}logout/"><i class="icon-eject"></i>Log Out</a></li>
+	{% if USER %}
+		<li><a href="{{ APP_PATH }}logout/"><i class="icon-eject"></i>Logout</a></li>
+		<li><a href="{{ APP_PATH }}profile/"><i class="icon-user"></i>Profile</a></li>
 	{% else %}
-		<li><a href="{{ APP_PATH }}login/"><i class="icon-play"></i>Log In</a></li>
+		<li><a href="{{ APP_PATH }}login/"><i class="icon-play"></i>Login</a></li>
 		<li><a href="{{ APP_PATH }}signin/"><i class="icon-edit"></i>Register</a></li>
 	{% endif %}
 </ul>

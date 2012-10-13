@@ -209,7 +209,7 @@ def profile(request):
 	else:
 		t = []
 
-	return render_page(request, 'show.html', {'person':a, 'tags':t}, menu="profile")
+	return render_page(request, 'show.html', {'person':a, 'tags':t}, menu="home")
 
 
 def json_person(request):
