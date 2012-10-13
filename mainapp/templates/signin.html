@@ -1,14 +1,18 @@
 {% extends "base_bootstrap.html" %}
-{% block title %}LOGIN{% endblock %}
+{% block title %}SIGNIN{% endblock %}
 {% block subnav %}{% include "subnav/default.html" %}{% endblock %}
 {% block content %}
-
 
 	<div class="span10">
 		<div class="container">
 
-			<section id="login">
-				<form id="loginform" method="POST">
+			<section id="forms">
+
+				<form id="insertform" method='POST' enctype="multipart/form-data">
+					<div class="page-header">
+						<h1>Registration</h1>
+					</div>
+
 					{% for field in formset %}
 						<div class="control-group">
 							{{ field.label_tag }}
@@ -18,25 +22,31 @@
 							</div>
 						</div>
 					{% endfor %}
+
 					{% csrf_token %}
 					<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
-				</form>
-			</section>
 
+				</form>
 
 		</div>
 	</div>
 
 	<script>
 		$(document).ready(function(){
-			$('#loginform').validate({
+			$('#insertform').validate({
 				rules: {
-					"user": {
+					"name": {
 						minlength: 2,
 						required: true
 					},
-					"password": {
+					"surname": {
 						minlength: 2,
+						required: true
+					},
+					"tags": {
+						required: true
+					},
+					"groups": {
 						required: true
 					}
 				},
@@ -52,5 +62,4 @@
 		});
 
 	</script>
-
 {% endblock %}

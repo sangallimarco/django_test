@@ -1,89 +1,23 @@
 {% extends "base_bootstrap.html" %}
-{% block pagetitle %}INDEX{% endblock %}
 {% block title %}INDEX{% endblock %}
+{% block subnav %}{% include "subnav/default.html" %}{% endblock %}
 {% block content %}
 
-	<div class="span3 bs-docs-sidebar">
-		<ul class="nav nav-list bs-docs-sidenav affix">
-			<li><a href="#tables"><i class="icon-chevron-right"></i> Tables</a></li>
-			<li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
-		</ul>
-	</div>
 
-	<div class="span9">
-		<div class="container">
-
-			<section id="tables">
-				<div class="page-header">
-					<h1>Tables</h1>
-				</div>
-				<div>
-					<table class="table table-bordered table-hover">
-						<tr><th>name</th><th>Link</th></tr>
-						{% for p in list %}
-							<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='{{ APP_PATH }}new_message/{{ p.name }}/'">Message</button></td></tr>
-						{% endfor %}
-					</table>
-				</div>
-
-			</section>
-
-
-			<section id="forms">
-
-				<form id="insertform" method='POST' enctype="multipart/form-data">
-					<div class="page-header">
-						<h1>Add User</h1>
-					</div>
-
-					{% for field in formset %}
-					<div class="control-group">
-						{{ field.label_tag }}
-						<div class="controls">
-							{{ field }}
-							<span class="help-inline"></span>
-						</div>
-					</div>
-					{% endfor %}
-
-					{% csrf_token %}
-					<input type='submit' class="btn btn-primary" name='Save' value='Save'/>
-					
-				</form>
-
-			</section>
+	<section id="tables">
+		<div class="page-header">
+			<h1>Tables</h1>
 		</div>
-	</div>
+		<div>
+			<table class="table table-bordered table-hover">
+				<tr><th>name</th><th>Link</th></tr>
+				{% for p in list %}
+					<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='{{ APP_PATH }}new_message/{{ p.name }}/'">Message</button></td></tr>
+				{% endfor %}
+			</table>
+		</div>
 
-	<script>
-		$(document).ready(function(){
-			$('#insertform').validate({
-				rules: {
-					"name": {
-					    minlength: 2,
-					    required: true
-					},
-					"surname": {
-						minlength: 2,
-						required: true
-					},
-					"tags": {
-						required: true
-					},
-					"groups": {
-						required: true
-					}
-				},
-				highlight: function(label) {
-					$(label).closest('.control-group').removeClass('success').addClass('error');
-					console.log('error');
-				},
-				success: function(label) {
-					$(label).closest('.control-group').removeClass('error').addClass('success');
-				}
-			});
+	</section>
 
-		});
 
-	</script>
 {% endblock %}

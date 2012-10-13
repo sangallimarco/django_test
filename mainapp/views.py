@@ -16,6 +16,11 @@ def index(request):
 	"""
 	home page
 	"""
+	a = Person.objects.all()
+
+	return render_page(request, 'index.html', {'list':a})
+
+def sign_in(request):
 	if request.method == 'POST':
 		formset = PersonForm(request.POST, request.FILES)
 		if formset.is_valid():
@@ -31,10 +36,7 @@ def index(request):
 		p = Person()
 		formset = PersonForm(instance = p)
 
-	a = Person.objects.all()
-
-	return render_page(request, 'index.html', {'list':a, 'formset':formset})
-
+	return render_page(request, 'signin.html', {'formset':formset})
 
 def log_in(request):
 	if request.method == 'POST':
