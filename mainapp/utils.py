@@ -19,6 +19,7 @@ def render_page(request, template, data, menu = "home"):
 	data['MENU'] = menu
 	data['SUBMENU'] = "subnav/%s.html" % menu
 	data['USER'] = user
+	data['LEVEL'] = user.groups.level
 	data['COUNTER'] = counter
 	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#

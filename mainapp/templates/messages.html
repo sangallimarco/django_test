@@ -3,7 +3,7 @@
 {% block content %}
 
 	<div class="span10">
-		<div class="container">
+
 
 			<section id="messages">
 				<div class="page-header">
@@ -13,7 +13,7 @@
 				<table class="table table-bordered table-hover">
 					<legend>List</legend>
 					<tr>
-						<th class="span2">From</th>
+						<th class="span3">From</th>
 						<th class='span3'>Date</th>
 						<th class='span4'>Message</th>
 					</tr>
@@ -34,7 +34,12 @@
 								{% endif %}
 							</td>
 							<td>{{ item.ts }}</td>
-							<td>{{ item.message }}</td>
+
+							{% if LEVEL > 0 %}
+								<td>{{ item.message }}</td>
+							{% else %}
+								<td>{{ item.message|slice:":4" }} LOOSER MESSAGE??</td>
+							{% endif %}
 						</tr>
 					{% endfor %}
 
@@ -42,6 +47,6 @@
 
 			</section>
 
-		</div>
+
 	</div>
 {% endblock %}

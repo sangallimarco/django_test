@@ -106,7 +106,7 @@ def messages(request):
 	return render_page(request, 'messages.html', {'list':list}, menu="messages")
 
 @login_required(login_url = '/mainapp/login/')
-def contacts(request):
+def matches(request):
 	#get user id
 	if request.method == 'POST':
 		search = request.POST.get('search')
@@ -117,7 +117,7 @@ def contacts(request):
 		a = Person.objects.all()
 		search = ""
 
-	return render_page(request, 'contacts.html', {'list':a, "search_contact":search}, menu="messages")
+	return render_page(request, 'matches.html', {'list':a, "search_contact":search}, menu="matches")
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):

@@ -4,22 +4,29 @@
 {% block content %}
 
 	<div class="span9">
-		<div class="container">
 
-			<div class="span5">
+		<div class="row-fluid">
+
+			<div class="span6">
 				<section id="message">
 					<div class="page-header">
 						<h2>From: {{ destination }}</h2>
 					</div>
 					<blockquote>
-						<p class="text-success">{{ message.message }}</p>
+						<p class="text-success">
+							{% if LEVEL > 0 %}
+								<td>{{ message.message }}</td>
+							{% else %}
+								<td>{{ message.message|slice:":4" }} LOOSER MESSAGE??</td>
+							{% endif %}
+						</p>
 						<small>{{ message.ts }}</small>
 					</blockquote>
 				</section>
 			</div>
 
 
-			<div class="span5">
+			<div class="span6">
 				<section id="forms">
 					<div class="page-header">
 						<h2>Reply</h2>
@@ -48,7 +55,8 @@
 			</div>
 
 		</div>
-		<div class="container">
+
+		<div class="row">
 
 			<section id="messages">
 				<div class="page-header">
@@ -87,7 +95,12 @@
 								<small>{{ item.ts|date:"d/m/y P" }}</small>
 							{% endif %}
 							</td>
-							<td>{{ item.message }}</td>
+
+							{% if LEVEL > 0 %}
+								<td>{{ item.message }}</td>
+							{% else %}
+								<td>{{ item.message|slice:":4" }} LOOSER MESSAGE??</td>
+							{% endif %}
 
 						</tr>
 					{% endfor %}

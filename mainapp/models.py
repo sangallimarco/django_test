@@ -87,7 +87,7 @@ class Person(models.Model):
 	surname = models.CharField(max_length = 200)
 	email = models.CharField(max_length=200,default='',null=True)
 	tags = models.ManyToManyField(Tag, verbose_name = "list of tags")
-	groups = models.ManyToManyField(Group, verbose_name = "list of groups")
+	groups = models.ForeignKey(Group, verbose_name = "list of groups")
 	img = models.ImageField(upload_to = "pictures/%Y/%m/%d", null = True, blank = True)
 	location = models.ForeignKey(Location, null=True)
 

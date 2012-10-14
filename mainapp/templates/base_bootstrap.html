@@ -29,10 +29,11 @@
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 					<li {% if MENU == "home" %}class="active"{% endif %}><a href="{{ APP_PATH }}index/"><i class="icon-home icon-white"></i> Home</a></li>
+					<li {% if MENU == "match" %}class="active"{% endif %}><a href="{{ APP_PATH }}matches/"><i class="icon-eye-open icon-white"></i> Match <span class="badge">-</span></a></li>
+
 					<li {% if MENU == "messages" %}class="active"{% endif %}><a href="{{ APP_PATH }}messages/"><i class="icon-envelope icon-white"></i> Messages <span class="badge">{{ COUNTER }}</span></a>
 					</li>
 					<li {% if MENU == "search" %}class="active"{% endif %}><a href="{{ APP_PATH }}search/"><i class="icon-search icon-white"></i> Search</a></li>
-					<li {% if MENU == "match" %}class="active"{% endif %}><a href="{{ APP_PATH }}match/"><i class="icon-eye-open icon-white"></i> Match</a></li>
 					<li {% if MENU == "events" %}class="active"{% endif %}><a href="{{ APP_PATH }}events/"><i class="icon-globe icon-white"></i> Events</a></li>
 				</ul>
 				<p class="navbar-text pull-right">
