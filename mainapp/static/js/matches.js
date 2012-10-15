@@ -6,7 +6,10 @@ $(document).ready(function(){
 			var request = $.ajax({
 				url: "ajax/",
 				type: "GET",
-				data: {id: uid},
+				data: {
+					type: "fancy",
+					id: uid
+				},
 				dataType: "json"
 			});
 

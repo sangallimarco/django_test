@@ -15,7 +15,8 @@ def render_page(request, template, data, menu = "home"):
 	#add user datails
 	user = getUser(request)
 	#get unread messages
-	counter = Message.getUnreadCounter(user)
+	m_counter = Message.getUnreadCounter(user)
+	f_counter = Match.getFansCounter(user)
 	#
 	data['MENU'] = menu
 	data['SUBMENU'] = "subnav/%s.html" % menu
@@ -26,7 +27,9 @@ def render_page(request, template, data, menu = "home"):
 	else:
 		data['LEVEL'] = -1
 	#
-	data['COUNTER'] = counter
+	data['MESSAGE_COUNTER'] = m_counter
+	data['MATCH_COUNTER'] = f_counter
+	#
 	data['TEMPLATE'] = template
 	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#

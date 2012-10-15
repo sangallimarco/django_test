@@ -14,6 +14,7 @@ urlpatterns = patterns('mainapp',
 					   url(r'^reply_message/(?P<message_id>\d+)/$', 'views.reply_message'),
 
 					   url(r'^matches/$', 'views.matches'),
+					   url(r'^matches/fans/$', 'views.matches_fans'),
 					   url(r'^matches/ajax/$','views.matches_ajax'),
 
 

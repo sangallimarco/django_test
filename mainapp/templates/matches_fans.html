@@ -1,0 +1,40 @@
+{% extends "base_bootstrap.html" %}
+{% block title %}Matches Fans{% endblock %}
+{% block content %}
+
+	<div class="row-fluid">
+		<!-- grid of matched -->
+		{% for item in list %}
+
+			{% if forloop.counter|divisibleby:"3" %}
+				<ul class="thumbnails">
+			{% endif %}
+
+
+		<li class="span4">
+			<div class="thumbnail">
+				<img src="{{ MEDIA_URL }}{{ item.sender.img }}"/>
+				<div class="caption">
+					<h3>{{ item.sender.name }}</h3>
+					<p>
+						Profile here
+					</p>
+					<p>
+						<a class="btn btn-small btn-primary accept" data-id="{{ item.sender.id }}">Accept</a>
+						<a class="btn btn-small btn-danger accept" data-id="{{ item.sender.id }}">Dismiss</a>
+					</p>
+				</div>
+			</div>
+		</li>
+
+
+		{% if forloop.counter|divisibleby:"3" %}
+			</ul>
+		{% endif %}
+
+		{% endfor %}
+	</div>
+
+
+
+{% endblock %}

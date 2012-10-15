@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Q,Count
+from django.db.models import Q, Count
 from django.core import serializers
 
 # Follow Natural Keys
@@ -25,6 +25,7 @@ class Video(models.Model):
 	def __unicode__(self):
 		return self.title
 
+
 class Location(models.Model):
 	"""
 	Use google maps
@@ -32,10 +33,11 @@ class Location(models.Model):
 	longitude = models.FloatField()
 	latitude = models.FloatField()
 	#cache google json response
-	cache = models.TextField(default="{}",null=True)
+	cache = models.TextField(default = "{}", null = True)
 
 	def getCache(self):
-		serializers.deserialize("json",self.cache)
+		serializers.deserialize("json", self.cache)
+
 
 class Tag(models.Model):
 	#objects = TagManager()
@@ -50,6 +52,7 @@ class Tag(models.Model):
 
 	class Meta:
 		ordering = ('name',)
+
 
 class Picture(models.Model):
 	title = models.CharField(max_length = 250)
@@ -69,7 +72,7 @@ class Group(models.Model):
 	DEF = 0
 	name = models.CharField(max_length = 200)
 	description = models.CharField(max_length = 200)
-	level = models.SmallIntegerField(choices = LEVELS ,default= DEF)
+	level = models.SmallIntegerField(choices = LEVELS, default = DEF)
 
 	def is_gold(self):
 		if self.level == 0:
@@ -85,11 +88,11 @@ class Person(models.Model):
 	user = models.ForeignKey(User, null = True)
 	name = models.CharField(max_length = 200)
 	surname = models.CharField(max_length = 200)
-	email = models.CharField(max_length=200,default='',null=True)
+	email = models.CharField(max_length = 200, default = '', null = True)
 	tags = models.ManyToManyField(Tag, verbose_name = "list of tags")
 	groups = models.ForeignKey(Group, verbose_name = "list of groups")
 	img = models.ImageField(upload_to = "pictures/%Y/%m/%d", null = True, blank = True)
-	location = models.ForeignKey(Location, null=True)
+	location = models.ForeignKey(Location, null = True)
 
 	def Meta(self):
 		ordering = ["name"]
@@ -143,7 +146,7 @@ class Message(models.Model):
 
 	@classmethod
 	def getMessages(cls, uid):
-		return cls.objects.filter(destination = uid).order_by("destination", "status","-id").distinct("destination")
+		return cls.objects.filter(destination = uid).order_by("destination", "status", "-id").distinct("destination")
 
 	@classmethod
 	def getAllMessages(cls, uid):
@@ -156,21 +159,37 @@ class Message(models.Model):
 
 
 class Match(models.Model):
-	sender = models.ForeignKey(Person, related_name= 'request_sender')
-	destination = models.ForeignKey(Person, related_name= 'request_destination')
-	status = models.SmallIntegerField(default=0)
-	ts = models.DateTimeField(auto_now_add= True)
+	sender = models.ForeignKey(Person, related_name = 'request_sender')
+	destination = models.ForeignKey(Person, related_name = 'request_destination')
+	status = models.SmallIntegerField(default = 0)
+	ts = models.DateTimeField(auto_now_add = True)
 
 	@classmethod
-	def create_match(cls, sender, destination):
+	def createMatch(cls, sender, destination):
 		#verify if already sent
 		try:
-			res = Match.objects.get(sender = sender, destination = destination)
+			res = cls.objects.get(sender = sender, destination = destination)
 		except:
 			#save
-			res = Match(sender = sender, destination = destination)
+			res = cls(sender = sender, destination = destination)
 			res.save()
 		else:
 			res = False
 		#
 		return res
+
+	@classmethod
+	def getFans(cls, uid):
+		return cls.objects.filter(destination = uid, status__lte = 1).order_by("-id")
+
+	@classmethod
+	def getFansCounter(cls, uid):
+		return len(cls.objects.filter(destination = uid, status__lte = 1 ).order_by("-id"))
+
+	def setAccepted(self):
+		self.status = 1
+		self.save()
+
+	def setDismissed(self):
+		self.status = 2
+		self.save()
