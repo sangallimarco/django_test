@@ -5,15 +5,7 @@
 
 	<section id="tables">
 		<div class="page-header">
-			<h1>Tables</h1>
-		</div>
-		<div>
-			<table class="table table-bordered table-hover">
-				<tr><th>name</th><th>Link</th></tr>
-				{% for p in list %}
-					<tr><td>{{ p.name|upper }}</td><td><button class="btn btn-primary" type="button" onclick="document.location.href='{{ APP_PATH }}new_message/{{ p.name }}/'">Message</button></td></tr>
-				{% endfor %}
-			</table>
+			<h1>Home</h1>
 		</div>
 
 	</section>

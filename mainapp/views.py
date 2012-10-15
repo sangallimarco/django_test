@@ -4,6 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+import json
 from django.contrib.auth.models import User
 #from django.views.decorators.csrf import csrf_protect
 
@@ -16,9 +17,8 @@ def index(request):
 	"""
 	home page
 	"""
-	a = Person.objects.all()
 
-	return render_page(request, 'index.html', {'list':a})
+	return render_page(request, 'index',{})
 
 def sign_in(request):
 	if request.method == 'POST':
@@ -36,7 +36,7 @@ def sign_in(request):
 		p = Person()
 		formset = PersonForm(instance = p)
 
-	return render_page(request, 'signin.html', {'formset':formset}, menu="home")
+	return render_page(request, 'signin', {'formset':formset}, menu="home")
 
 def log_in(request):
 	if request.method == 'POST':
@@ -54,7 +54,7 @@ def log_in(request):
 	else:
 		formset = LoginForm()
 
-	return render_page(request, 'login.html', {'formset':formset}, menu="home")
+	return render_page(request, 'login', {'formset':formset}, menu="home")
 
 
 def log_out(request):
@@ -76,7 +76,7 @@ def tags(request):
 
 	a = Tag.objects.all()
 
-	return render_page(request, 'tags.html', {'list':a, 'formset':formset}, menu="admin")
+	return render_page(request, 'tags', {'list':a, 'formset':formset}, menu="admin")
 
 
 def groups(request):
@@ -92,7 +92,7 @@ def groups(request):
 
 	a = Group.objects.all()
 
-	return render_page(request, 'groups.html', {'list':a, 'formset':formset}, menu="admin")
+	return render_page(request, 'groups', {'list':a, 'formset':formset}, menu="admin")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -103,21 +103,44 @@ def messages(request):
 	#filter messages, display only messages with destination = user
 	list = Message.getMessages(uid)
 
-	return render_page(request, 'messages.html', {'list':list}, menu="messages")
+	return render_page(request, 'messages', {'list':list}, menu="messages")
 
 @login_required(login_url = '/mainapp/login/')
 def matches(request):
 	#get user id
+	uid = getUser(request)
+	#
 	if request.method == 'POST':
 		search = request.POST.get('search')
 		a = Person.objects.filter(name__startswith = search)
 		#into session
 		#request.session['search_contact'] = search
 	else:
-		a = Person.objects.all()
+		#all archive
+		a = Person.objects.filter(~Q(id = uid.id))
 		search = ""
 
-	return render_page(request, 'matches.html', {'list':a, "search_contact":search}, menu="matches")
+	return render_page(request, 'matches', {'list':a, "search_contact":search}, menu="matches")
+
+@login_required(login_url= '/mainapp/login/')
+def matches_ajax(request):
+	#get user id
+	uid = getUser(request)
+	#
+	if request.method == 'GET':
+		#get destination
+		destination = Person.objects.get(id = request.GET["id"])
+		#create a ticket
+		ticket = Match.create_match(uid, destination)
+		if ticket:
+			status = 1
+		else:
+			status = 0
+	else:
+		status = -1
+
+	res = json.dumps({"status":status})
+	return HttpResponse(res, mimetype = "application/json")
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):
@@ -147,7 +170,7 @@ def new_message(request, sender_id):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_page(request, 'new_message.html', {'formset':formset, 'destination':dest.name}, menu="messages")
+	return render_page(request, 'new_message', {'formset':formset, 'destination':dest.name}, menu="messages")
 
 
 def reply_message(request, message_id):
@@ -184,7 +207,7 @@ def reply_message(request, message_id):
 		p = Message()
 		formset = MessageForm(instance = p)
 
-	return render_page(request, 'new_message.html',
+	return render_page(request, 'new_message',
 	                   {'formset':formset, 'destination':dest.name, 'list':list, 'message':message}, menu="messages")
 
 
@@ -196,7 +219,7 @@ def showid(request, name_id):
 	else:
 		t = []
 
-	return render_page(request, 'show.html', {'persons':a, 'tags':t}, menu="profile")
+	return render_page(request, 'show', {'persons':a, 'tags':t}, menu="profile")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -209,7 +232,7 @@ def profile(request):
 	else:
 		t = []
 
-	return render_page(request, 'show.html', {'person':a, 'tags':t}, menu="home")
+	return render_page(request, 'show', {'person':a, 'tags':t}, menu="home")
 
 
 def json_person(request):

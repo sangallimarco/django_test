@@ -6,6 +6,7 @@ from django.core import serializers
 import os.path
 import urllib, urllib2
 from django.utils.encoding import smart_str
+from django.http import HttpResponse
 
 def render_page(request, template, data, menu = "home"):
 	"""
@@ -19,11 +20,17 @@ def render_page(request, template, data, menu = "home"):
 	data['MENU'] = menu
 	data['SUBMENU'] = "subnav/%s.html" % menu
 	data['USER'] = user
-	data['LEVEL'] = user.groups.level
+	#get group level
+	if user:
+		data['LEVEL'] = user.groups.level
+	else:
+		data['LEVEL'] = -1
+	#
 	data['COUNTER'] = counter
+	data['TEMPLATE'] = template
 	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
 	#
-	return render_to_response('mainapp/templates/%s' % template,
+	return render_to_response('mainapp/templates/%s.html' % template,
 	                          data,
 	                          context_instance = RequestContext(request))
 

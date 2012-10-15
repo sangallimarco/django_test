@@ -19,7 +19,7 @@
 								Profile here
 							</p>
 							<p>
-								<a class="btn btn-small btn-primary" href="{{ APP_PATH }}add/{{ item.name }}/">Fancy</a>
+								<a class="btn btn-small btn-primary fancy" data-id="{{ item.id }}">Fancy</a>
 								<a class="btn btn-small btn-info" href="{{ APP_PATH }}new_message/{{ item.name }}/">Message</a>
 							</p>
 						</div>
@@ -36,54 +36,4 @@
 
 
 
-
-	<!--
-	<div class="span10">
-
-			<section id="messages">
-				<div class="page-header">
-					<h1>Matches</h1>
-				</div>
-				<form method="POST">
-					<div class="input-append">
-						<input class="span4" id="search" name="search" size="16" type="text" value="{{ search }}"><input class="btn" type="submit">Go!</button>
-					</div>
-					{% csrf_token %}
-				</form>
-
-				<table class="table table-bordered table-hover">
-					<legend>List</legend>
-					<tr>
-						<th class="span2">Picture</th>
-						<th class="span4">Name</th>
-						<th class="span1">Match</th>
-						<th class='span1'>Message</th>
-					</tr>
-
-					{% for item in list %}
-						<tr>
-							<td class="thumbnail span2">
-								<img src="{{ MEDIA_URL }}{{ item.img }}"/>
-							</td>
-							<td>
-								<h4>{{ item.name }}</h4>
-								<p>
-									{{ item.profile|slice:":10" }}
-								</p>
-							</td>
-							<td>
-								<a class="btn btn-small btn-block btn-primary" href="{{ APP_PATH }}add/{{ item.name }}/">Add</a>
-							</td>
-							<td><a class="btn btn-small btn-block btn-primary" href="{{ APP_PATH }}new_message/{{ item.name }}/">Message</a></td>
-						</tr>
-					{% endfor %}
-
-
-
-				</table>
-
-			</section>
-
-	</div>
-	-->
 {% endblock %}

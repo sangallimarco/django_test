@@ -69,7 +69,7 @@ class Group(models.Model):
 	DEF = 0
 	name = models.CharField(max_length = 200)
 	description = models.CharField(max_length = 200)
-	level = models.SmallIntegerField(choices = LEVELS)
+	level = models.SmallIntegerField(choices = LEVELS ,default= DEF)
 
 	def is_gold(self):
 		if self.level == 0:
@@ -155,3 +155,22 @@ class Message(models.Model):
 		return len(cls.objects.filter(destination = uid, status = 0))
 
 
+class Match(models.Model):
+	sender = models.ForeignKey(Person, related_name= 'request_sender')
+	destination = models.ForeignKey(Person, related_name= 'request_destination')
+	status = models.SmallIntegerField(default=0)
+	ts = models.DateTimeField(auto_now_add= True)
+
+	@classmethod
+	def create_match(cls, sender, destination):
+		#verify if already sent
+		try:
+			res = Match.objects.get(sender = sender, destination = destination)
+		except:
+			#save
+			res = Match(sender = sender, destination = destination)
+			res.save()
+		else:
+			res = False
+		#
+		return res
