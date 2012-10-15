@@ -96,6 +96,7 @@ def groups(request):
 
 	return render_page(request, 'groups', {'list':a, 'formset':formset}, menu = "admin")
 
+
 @login_required(login_url = '/mainapp/login/')
 def matches(request):
 	#get user id
@@ -142,18 +143,17 @@ def matches_ajax(request):
 			else:
 				status = 0
 		elif t == "accept":
-			m = Match.objects.get(destination = dest)
-			m.setAccepted()
+			Match.setAccepted(uid, dest)
 			status = 1
 		elif t == "dismiss":
-			m = Match.objects.get(destination = dest)
-			m.setDismissed()
+			Match.setDismissed(uid, dest)
 			status = 1
 	else:
 		status = -1
 
-	res = json.dumps({"status":status})
+	res = json.dumps({"status":status, "type":t})
 	return HttpResponse(res, mimetype = "application/json")
+
 
 @login_required(login_url = '/mainapp/login/')
 def messages(request):
@@ -164,6 +164,7 @@ def messages(request):
 	list = Message.getMessages(uid)
 
 	return render_page(request, 'messages', {'list':list}, menu = "messages")
+
 
 @login_required(login_url = '/mainapp/login/')
 def new_message(request, sender_id):

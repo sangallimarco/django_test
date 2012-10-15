@@ -184,12 +184,18 @@ class Match(models.Model):
 
 	@classmethod
 	def getFansCounter(cls, uid):
-		return len(cls.objects.filter(destination = uid, status__lte = 1 ).order_by("-id"))
+		return len(cls.objects.filter(destination = uid, status = 0).order_by("-id"))
 
-	def setAccepted(self):
-		self.status = 1
-		self.save()
+	@classmethod
+	def setAccepted(cls, sender, destination):
+		res = cls.objects.get(sender = destination, destination = sender)
+		res.status = 1
+		res.save()
+		print res
 
-	def setDismissed(self):
-		self.status = 2
-		self.save()
+	@classmethod
+	def setDismissed(cls, sender, destination):
+		res = cls.objects.get(sender = destination, destination = sender)
+		res.status = 2
+		res.save()
+		print res
