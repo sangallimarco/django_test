@@ -157,6 +157,10 @@ class Message(models.Model):
 		#cnt = cls.objects.filter(destination = uid, status = 0).annotate(cnt = Count('id'))[0].cnt
 		return len(cls.objects.filter(destination = uid, status = 0))
 
+	@classmethod
+	def sendMatchMessage(cls, sender, destination):
+		m = cls(sender = sender, destination = destination, message = "I Fancy you too!")
+		m.save()
 
 class Match(models.Model):
 	sender = models.ForeignKey(Person, related_name = 'request_sender')

@@ -20,7 +20,9 @@
 						Profile here
 					</p>
 					<p>
-						<a class="btn btn-small btn-primary accept" data-id="{{ item.sender.id }}">Accept</a>
+						{% if item.status == 0 %}
+						<a class="btn btn-small btn-primary accept" data-id="{{ item.sender.id }}">Accept Request</a>
+						{% endif %}
 						<a class="btn btn-small btn-danger dismiss" data-id="{{ item.sender.id }}">Dismiss</a>
 					</p>
 				</div>

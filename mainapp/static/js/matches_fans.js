@@ -15,7 +15,8 @@ $(document).ready(function () {
 			});
 
 			request.done(function (msg) {
-				$(ref).parent(".thumbnail").css('opacity', "0.3")
+				//$(ref).parents(".thumbnail").css('opacity', "0.3");
+				$(ref).remove();
 			});
 
 			request.fail(function (jqXHR, textStatus) {
@@ -26,6 +27,7 @@ $(document).ready(function () {
 	//
 	$(".dismiss").click(function () {
 			var uid = this.getAttribute("data-id");
+			var ref = this;
 			//ajax
 			var request = $.ajax({
 				url:"../ajax/",
@@ -38,10 +40,8 @@ $(document).ready(function () {
 			});
 
 			request.done(function (msg) {
-				console.log(msg.status);
-				if (msg.status == 0) {
-
-				}
+				//$(ref).parents(".thumbnail").css('opacity', "0.1");
+				$(ref).remove();
 			});
 
 			request.fail(function (jqXHR, textStatus) {

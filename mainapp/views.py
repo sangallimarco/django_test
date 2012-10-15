@@ -144,6 +144,12 @@ def matches_ajax(request):
 				status = 0
 		elif t == "accept":
 			Match.setAccepted(uid, dest)
+			#send message
+			n = Message.sendMatchMessage(uid, dest)
+			m = Message.sendMatchMessage(dest, uid)
+			#send back a message
+			Match.createMatch(uid, dest)
+			#
 			status = 1
 		elif t == "dismiss":
 			Match.setDismissed(uid, dest)
