@@ -39,6 +39,22 @@ def sign_in(request):
 
 	return render_page(request, 'signin', {'formset':formset}, menu = "home")
 
+def sign_in_ajax(request):
+	#get
+	if request.method=="GET":
+		#query string
+		q = request.GET["q"]
+		t = Tag.objects.all().order_by("name")
+
+		#create tags labels
+		tags = []
+		for i in t:
+			tags.append(i.name)
+	else:
+		tags = []
+
+	res = json.dumps(tags)
+	return HttpResponse(res, mimetype = "application/json")
 
 def log_in(request):
 	if request.method == 'POST':

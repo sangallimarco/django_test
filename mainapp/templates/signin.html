@@ -11,6 +11,7 @@
 						<h1>Registration</h1>
 					</div>
 
+					<!-- FIELDS -->
 					{% for field in formset %}
 						<div class="control-group">
 							{{ field.label_tag }}
@@ -19,7 +20,22 @@
 								<span class="help-inline"></span>
 							</div>
 						</div>
+
+						<!-- Tabs -->
+						{% if field.label_tag == "Surname" %}
+							<div class="control-group">
+								Tags
+								<div class="controls">
+									<textarea id="textarea" rows="3"></textarea>
+								</div>
+							</div>
+						{% endif %}
+						<!-- Tabs -->
+
+
 					{% endfor %}
+					<!-- FIELDS -->
+
 
 					{% csrf_token %}
 					<input type='submit' class="btn btn-primary" name='Save' value='Save'/>

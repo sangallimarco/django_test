@@ -2,19 +2,22 @@ from models import *
 from django import forms
 
 class TestForm(forms.Form):
-	name=forms.CharField(max_length=200)
-	surname=forms.CharField(max_length=200)
+	name = forms.CharField(max_length = 200)
+	surname = forms.CharField(max_length = 200)
+
 
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
-		exclude = ('user','email','location')
+		exclude = ('user', 'email', 'location', 'tags')
+
 
 class LoginForm(forms.Form):
-	user=forms.CharField(max_length=200)
-	password=forms.CharField(max_length=200,widget=forms.PasswordInput)
+	user = forms.CharField(max_length = 200)
+	password = forms.CharField(max_length = 200, widget = forms.PasswordInput)
+
 
 class MessageForm(forms.ModelForm):
 	class Meta:
 		model = Message
-		exclude = ('status','sender','destination')
+		exclude = ('status', 'sender', 'destination')
