@@ -26,18 +26,6 @@ $(document).ready(function(){
 	});
 
 
-	/*
-	//textext
-	$('#textarea').textext({
-			plugins : 'autocomplete filter tags ajax',
-			ajax : {
-				url : 'ajax/',
-				dataType : 'json',
-				cacheResults : true
-			}
-	});
-	*/
-
 	$("#textarea").tokenInput("ajax/",
 		{
 			theme: "facebook",
