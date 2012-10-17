@@ -53,6 +53,22 @@ class Tag(models.Model):
 	class Meta:
 		ordering = ('name',)
 
+	@classmethod
+	def getTags(cls, labels):
+		ids = []
+
+		for l in labels:
+			try:
+				res = cls.objects.get(name = l)
+			except:
+				#insert a new tag
+				res = cls(name = l)
+				res.save()
+
+			ids.append(u"%s" % res.id)
+
+		return ids
+
 
 class Picture(models.Model):
 	title = models.CharField(max_length = 250)
@@ -89,8 +105,8 @@ class Person(models.Model):
 	name = models.CharField(max_length = 200)
 	surname = models.CharField(max_length = 200)
 	email = models.CharField(max_length = 200, default = '', null = True)
-	tags = models.ManyToManyField(Tag, verbose_name = "list of tags")
-	groups = models.ForeignKey(Group, verbose_name = "list of groups")
+	tags = models.ManyToManyField(Tag, verbose_name = "Tags", null = True)
+	groups = models.ForeignKey(Group, verbose_name = "Groups")
 	img = models.ImageField(upload_to = "pictures/%Y/%m/%d", null = True, blank = True)
 	location = models.ForeignKey(Location, null = True)
 
@@ -98,11 +114,13 @@ class Person(models.Model):
 		ordering = ["name"]
 
 	def save(self, *args, **kwargs):
-		#create a new user
-		u = User.objects.create_user(self.name, "no@no.com", self.name)
-		u.save()
-		#selet user
-		self.user = u
+		if not self.user:
+			#create a new user
+			u = User.objects.create_user(self.name, "no@no.com", self.name)
+			u.save()
+			#selet user
+			self.user = u
+
 		super(Person, self).save(*args, **kwargs)
 
 	def __unicode__(self):
@@ -161,6 +179,7 @@ class Message(models.Model):
 	def sendMatchMessage(cls, sender, destination):
 		m = cls(sender = sender, destination = destination, message = "I Fancy you too!")
 		m.save()
+
 
 class Match(models.Model):
 	sender = models.ForeignKey(Person, related_name = 'request_sender')

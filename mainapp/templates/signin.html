@@ -13,24 +13,26 @@
 
 					<!-- FIELDS -->
 					{% for field in formset %}
-						<div class="control-group">
-							{{ field.label_tag }}
-							<div class="controls">
-								{{ field }}
-								<span class="help-inline"></span>
-							</div>
-						</div>
 
 						<!-- Tabs -->
-						{% if field.label_tag == "Surname" %}
+						{% if field.label == "Tags" %}
 							<div class="control-group">
 								Tags
 								<div class="controls">
-									<textarea id="textarea" rows="3"></textarea>
+									<textarea name="tags" id="textarea" rows="3"></textarea>
+								</div>
+							</div>
+
+							<!-- Others -->
+						{% else %}
+							<div class="control-group">
+								{{ field.label_tag }}
+								<div class="controls">
+									{{ field }}
+									<span class="help-inline"></span>
 								</div>
 							</div>
 						{% endif %}
-						<!-- Tabs -->
 
 
 					{% endfor %}

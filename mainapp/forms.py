@@ -9,7 +9,7 @@ class TestForm(forms.Form):
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
-		exclude = ('user', 'email', 'location', 'tags')
+		exclude = ('user', 'email', 'location')
 
 
 class LoginForm(forms.Form):

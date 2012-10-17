@@ -23,7 +23,11 @@ def index(request):
 
 def sign_in(request):
 	if request.method == 'POST':
+		#covert tags, json
+		request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
+		#
 		formset = PersonForm(request.POST, request.FILES)
+
 		if formset.is_valid():
 			#create a new Person and a new User and link them
 			try:
@@ -44,6 +48,7 @@ def sign_in_ajax(request):
 	if request.method=="GET":
 		#query string
 		q = request.GET["q"]
+		#t = Tag.objects.filter(name__startswith = q).order_by("name")
 		t = Tag.objects.all().order_by("name")
 
 		#create tags labels
