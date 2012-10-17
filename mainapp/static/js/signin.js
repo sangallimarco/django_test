@@ -41,6 +41,7 @@ $(document).ready(function(){
 	$("#textarea").tokenInput("ajax/",
 		{
 			theme: "facebook",
+			preventDuplicates:true
 		}
 	);
 
