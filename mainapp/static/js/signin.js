@@ -26,6 +26,7 @@ $(document).ready(function(){
 	});
 
 
+	/*
 	//textext
 	$('#textarea').textext({
 			plugins : 'autocomplete filter tags ajax',
@@ -35,5 +36,12 @@ $(document).ready(function(){
 				cacheResults : true
 			}
 	});
+	*/
+
+	$("#textarea").tokenInput("ajax/",
+		{
+			theme: "facebook",
+		}
+	);
 
 });

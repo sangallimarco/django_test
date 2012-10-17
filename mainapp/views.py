@@ -24,7 +24,9 @@ def index(request):
 def sign_in(request):
 	if request.method == 'POST':
 		#covert tags, json
-		request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
+		request.POST.setlist("tags",request.POST["tags"].split(","))
+		#
+		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
 		formset = PersonForm(request.POST, request.FILES)
 
@@ -43,23 +45,26 @@ def sign_in(request):
 
 	return render_page(request, 'signin', {'formset':formset}, menu = "home")
 
+
 def sign_in_ajax(request):
 	#get
-	if request.method=="GET":
+	if request.method == "GET":
 		#query string
 		q = request.GET["q"]
-		#t = Tag.objects.filter(name__startswith = q).order_by("name")
-		t = Tag.objects.all().order_by("name")
+		t = Tag.objects.filter(name__startswith = q).order_by("name")
+		#t = Tag.objects.all().order_by("name")
 
 		#create tags labels
 		tags = []
 		for i in t:
-			tags.append(i.name)
+			#tags.append(i.name)
+			tags.append({"id":i.id, "name":i.name})
 	else:
 		tags = []
 
 	res = json.dumps(tags)
 	return HttpResponse(res, mimetype = "application/json")
+
 
 def log_in(request):
 	if request.method == 'POST':
