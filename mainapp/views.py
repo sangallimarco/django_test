@@ -24,7 +24,7 @@ def index(request):
 def sign_in(request):
 	if request.method == 'POST':
 		#covert tags, json
-		request.POST.setlist("tags",request.POST["tags"].split(","))
+		request.POST.setlist("tags", request.POST["tags"].split(","))
 		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
 		formset = PersonForm(request.POST, request.FILES)
@@ -65,6 +65,46 @@ def sign_in_ajax(request):
 	return HttpResponse(res, mimetype = "application/json")
 
 
+@login_required(login_url = '/mainapp/login/')
+def profile(request):
+	#get user id
+	uid = getUser(request)
+	#get tags
+	if request.method == 'POST':
+		#covert tags, json
+		request.POST.setlist("tags", request.POST["tags"].split(","))
+		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
+		#
+		formset = PersonForm(request.POST, request.FILES)
+
+		if formset.is_valid():
+			#create a new Person and a new User and link them
+			try:
+				formset.save()
+			except:
+				print "duplicated keys"
+			else:
+				return redirect('/mainapp/index/')
+			#add tags
+	else:
+		formset = PersonForm(instance = uid)
+
+	return render_page(request, 'profile', {'formset':formset}, menu = "home")
+
+
+@login_required(login_url = '/mainapp/login/')
+def profile_ajax(request):
+	if request.method == "GET":
+		#query string
+		field = request.GET["field"]
+		status = 1
+	else:
+		status = 0
+
+	res = json.dumps({"status":status, "type":t})
+	return HttpResponse(res, mimetype = "application/json")
+
+
 def log_in(request):
 	if request.method == 'POST':
 		formset = LoginForm(request.POST)
@@ -88,38 +128,6 @@ def log_out(request):
 	logout(request)
 	#goto index
 	return redirect('/mainapp/index/')
-
-
-def tags(request):
-	TagsFormSet = modelformset_factory(Tag)
-
-	if request.method == 'POST':
-		formset = TagsFormSet(request.POST)
-
-		if formset.is_valid():
-			formset.save()
-	else:
-		formset = TagsFormSet()
-
-	a = Tag.objects.all()
-
-	return render_page(request, 'tags', {'list':a, 'formset':formset}, menu = "admin")
-
-
-def groups(request):
-	GroupsFormSet = modelformset_factory(Group)
-
-	if request.method == 'POST':
-		formset = GroupsFormSet(request.POST)
-
-		if formset.is_valid():
-			formset.save()
-	else:
-		formset = GroupsFormSet()
-
-	a = Group.objects.all()
-
-	return render_page(request, 'groups', {'list':a, 'formset':formset}, menu = "admin")
 
 
 @login_required(login_url = '/mainapp/login/')
@@ -266,6 +274,8 @@ def reply_message(request, message_id):
 	                   {'formset':formset, 'destination':dest.name, 'list':list, 'message':message}, menu = "messages")
 
 
+######## TESTS ######################################################################################################
+
 @login_required(login_url = '/mainapp/login/')
 def showid(request, name_id):
 	a = Person.objects.get(id = name_id)
@@ -275,19 +285,6 @@ def showid(request, name_id):
 		t = []
 
 	return render_page(request, 'show', {'persons':a, 'tags':t}, menu = "profile")
-
-
-@login_required(login_url = '/mainapp/login/')
-def profile(request):
-	#get user id
-	a = getUser(request)
-	#get tags
-	if a:
-		t = a.tags.all()
-	else:
-		t = []
-
-	return render_page(request, 'show', {'person':a, 'tags':t}, menu = "home")
 
 
 def json_person(request):
@@ -310,3 +307,33 @@ def xml_test(request):
 	return HttpResponse(xml, mimetype = 'application/xml')
 
 
+def tags(request):
+	TagsFormSet = modelformset_factory(Tag)
+
+	if request.method == 'POST':
+		formset = TagsFormSet(request.POST)
+
+		if formset.is_valid():
+			formset.save()
+	else:
+		formset = TagsFormSet()
+
+	a = Tag.objects.all()
+
+	return render_page(request, 'tags', {'list':a, 'formset':formset}, menu = "admin")
+
+
+def groups(request):
+	GroupsFormSet = modelformset_factory(Group)
+
+	if request.method == 'POST':
+		formset = GroupsFormSet(request.POST)
+
+		if formset.is_valid():
+			formset.save()
+	else:
+		formset = GroupsFormSet()
+
+	a = Group.objects.all()
+
+	return render_page(request, 'groups', {'list':a, 'formset':formset}, menu = "admin")
