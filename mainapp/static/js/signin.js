@@ -26,7 +26,7 @@ $(document).ready(function(){
 	});
 
 
-	$("#textarea").tokenInput("ajax/",
+	$("#id_tags").tokenInput("ajax/",
 		{
 			theme: "facebook",
 			preventDuplicates:true
