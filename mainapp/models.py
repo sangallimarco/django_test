@@ -162,6 +162,10 @@ class Message(models.Model):
 	class Meta:
 		ordering = ('id',)
 
+	def setRead(self):
+		self.status = 1
+		self.save()
+
 	@classmethod
 	def getMessages(cls, uid):
 		return cls.objects.filter(destination = uid).order_by("destination", "status", "-id").distinct("destination")
@@ -214,11 +218,10 @@ class Match(models.Model):
 		res = cls.objects.get(sender = destination, destination = sender)
 		res.status = 1
 		res.save()
-		print res
 
 	@classmethod
 	def setDismissed(cls, sender, destination):
 		res = cls.objects.get(sender = destination, destination = sender)
 		res.status = 2
 		res.save()
-		print res
+

@@ -21,3 +21,9 @@ class MessageForm(forms.ModelForm):
 	class Meta:
 		model = Message
 		exclude = ('status', 'sender', 'destination')
+
+
+class ProfileForm(forms.ModelForm):
+	class Meta:
+		model = Person
+		exclude = ('name', 'user', 'groups', 'location')

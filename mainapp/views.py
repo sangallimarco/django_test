@@ -75,7 +75,7 @@ def profile(request):
 		request.POST.setlist("tags", request.POST["tags"].split(","))
 		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
-		formset = PersonForm(request.POST, request.FILES)
+		formset = ProfileForm(request.POST, request.FILES)
 
 		if formset.is_valid():
 			#create a new Person and a new User and link them
@@ -87,7 +87,7 @@ def profile(request):
 				return redirect('/mainapp/index/')
 			#add tags
 	else:
-		formset = PersonForm(instance = uid)
+		formset = ProfileForm(instance = uid)
 
 	return render_page(request, 'profile', {'formset':formset}, menu = "home")
 
@@ -247,8 +247,7 @@ def reply_message(request, message_id):
 		return redirect('/mainapp/messages/')
 	else:
 		#update to viewed
-		message.status = 1
-		message.save()
+		message.setRead()
 		#get list of related messages
 		list = Message.getAllMessages(dest)
 
