@@ -24,6 +24,7 @@ def index(request):
 def sign_in(request):
 	if request.method == 'POST':
 		#covert tags, json
+		print request.POST
 		request.POST.setlist("tags", request.POST["tags"].split(","))
 		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
