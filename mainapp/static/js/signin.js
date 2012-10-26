@@ -9,13 +9,17 @@ $(document).ready(function(){
 				minlength: 2,
 				required: true
 			},
+			"email": {
+				required: true,
+				email: true
+			},
 			"surname": {
 				minlength: 2,
-				required: true
+				required: true,
 			},
 			"phone": {
-				minlength: 2,
-				required: true
+				required: true,
+				tel: true
 			},
 			"tags": {
 				required: true
@@ -33,7 +37,7 @@ $(document).ready(function(){
 		}
 	});
 
-
+	//token JS
 	$("#id_tags").tokenInput("ajax/",
 		{
 			theme: "facebook",
