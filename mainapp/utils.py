@@ -23,7 +23,7 @@ def render_page(request, template, data, menu = "home"):
 	data['USER'] = user
 	#get group level
 	if user:
-		data['LEVEL'] = user.groups.level
+		data['LEVEL'] = user.level
 	else:
 		data['LEVEL'] = -1
 	#
@@ -42,7 +42,7 @@ def getUser(request):
 		try:
 			uid = request.session["uid"]
 		except:
-			uid = Person.objects.get(name = request.user)
+			uid = Person.objects.get(username = request.user)
 			#save into session
 			request.session["uid"] = uid
 

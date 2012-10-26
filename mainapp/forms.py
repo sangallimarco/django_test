@@ -9,8 +9,12 @@ class TestForm(forms.Form):
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
-		exclude = ('user', 'email', 'location')
+		exclude = ('user', 'level', 'location', 'credits')
 
+class ProfileForm(forms.ModelForm):
+	class Meta:
+		model = Person
+		exclude = ('name', 'user', 'level', 'credits')
 
 class LoginForm(forms.Form):
 	user = forms.CharField(max_length = 200)
@@ -23,7 +27,3 @@ class MessageForm(forms.ModelForm):
 		exclude = ('status', 'sender', 'destination')
 
 
-class ProfileForm(forms.ModelForm):
-	class Meta:
-		model = Person
-		exclude = ('name', 'user', 'groups', 'location')

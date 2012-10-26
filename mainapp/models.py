@@ -80,48 +80,58 @@ class Picture(models.Model):
 
 
 class Group(models.Model):
-	LEVELS = (
-	(0, 'Member'),
-	(1, 'Silver'),
-	(2, 'Gold'),
-	)
-	DEF = 0
 	name = models.CharField(max_length = 200)
 	description = models.CharField(max_length = 200)
-	level = models.SmallIntegerField(choices = LEVELS, default = DEF)
-
-	def is_gold(self):
-		if self.level == 0:
-			return True
-		else:
-			return False
 
 	def __unicode__(self):
 		return self.name
 
 
 class Person(models.Model):
+	LEVELS = (
+	(0, 'Member'),
+	(1, 'Silver'),
+	(2, 'Gold'),
+	)
+	DEF = 0
+
 	user = models.ForeignKey(User, null = True)
+	username = models.CharField(max_length = 50)
 	name = models.CharField(max_length = 200)
 	surname = models.CharField(max_length = 200)
 	email = models.CharField(max_length = 200, default = '', null = True)
+	phone = models.CharField(max_length = 50)
 	tags = models.ManyToManyField(Tag, verbose_name = "Tags", null = True)
 	groups = models.ForeignKey(Group, verbose_name = "Groups")
+	level = models.SmallIntegerField(choices = LEVELS, default = DEF)
 	img = models.ImageField(upload_to = "pictures/%Y/%m/%d", null = True, blank = True)
-	location = models.ForeignKey(Location, null = True)
+	location = models.ForeignKey(Location, null = True) #gmap json object
+	credits = models.IntegerField(default = 0) #cache obj, calculated from history
 
 	def Meta(self):
 		ordering = ["name"]
 
 	def save(self, *args, **kwargs):
 		if not self.user:
-			#create a new user
-			u = User.objects.create_user(self.name, "no@no.com", self.name)
+			#create a new user, set an automatic password, confirmation email
+			u = User.objects.create_user(self.username, self.email, 'password')
 			u.save()
 			#selet user
 			self.user = u
 
 		super(Person, self).save(*args, **kwargs)
+
+	def addCredits(self, credits):
+		self.credits += credits
+
+	def rmCredits(self, credits):
+		self.credits -= credits
+
+	def is_gold(self):
+		if self.level == 2:
+			return True
+		else:
+			return False
 
 	def __unicode__(self):
 		return self.name
@@ -137,6 +147,28 @@ class Event(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class Job(models.Model):
+	LEVELS = (
+		(0, 'Sent'),
+		(1, 'Received'),
+		(2, 'Approved'),
+		(3, 'Done'),
+		(4, 'Raise')
+	)
+	DEF = 0
+	name = models.CharField(max_length=250)
+	description = models.TextField()
+	customer = models.ForeignKey(Person, related_name = 'job_customer')
+	worker = models.ForeignKey(Person, related_name = 'job_worker')
+	credits = models.SmallIntegerField(default=1)
+	start_ts = models.DateTimeField()
+	stop_ts = models.DateTimeField()
+	ts = models.DateTimeField(auto_now_add = True)
+	secret = models.CharField(max_length=250)
+	status = models.SmallIntegerField(choices = LEVELS, default = DEF)
+
+	def __unicode__(self):
+		return "%s" % self.name
 
 class Score(models.Model):
 	voter = models.ForeignKey(Person, related_name = 'score_voter')

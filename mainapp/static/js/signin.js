@@ -1,11 +1,19 @@
 $(document).ready(function(){
 	$('#insertform').validate({
 		rules: {
+			"username": {
+				minlength: 2,
+				required: true
+			},
 			"name": {
 				minlength: 2,
 				required: true
 			},
 			"surname": {
+				minlength: 2,
+				required: true
+			},
+			"phone": {
 				minlength: 2,
 				required: true
 			},
