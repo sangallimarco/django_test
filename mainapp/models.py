@@ -53,22 +53,6 @@ class Tag(models.Model):
 	class Meta:
 		ordering = ('name',)
 
-	@classmethod
-	def getTags(cls, labels):
-		ids = []
-
-		for l in labels:
-			try:
-				res = cls.objects.get(name = l)
-			except:
-				#insert a new tag
-				res = cls(name = l)
-				res.save()
-
-			ids.append(u"%s" % res.id)
-
-		return ids
-
 
 class Picture(models.Model):
 	title = models.CharField(max_length = 250)

@@ -26,7 +26,6 @@ def sign_in(request):
 		#covert tags, json
 		print request.POST
 		request.POST.setlist("tags", request.POST["tags"].split(","))
-		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
 		formset = PersonForm(request.POST, request.FILES)
 
@@ -74,7 +73,6 @@ def profile(request):
 	if request.method == 'POST':
 		#covert tags, json
 		request.POST.setlist("tags", request.POST["tags"].split(","))
-		#request.POST.setlist("tags", Tag.getTags(json.loads(request.POST["tags"])))
 		#
 		formset = ProfileForm(request.POST, request.FILES)
 
