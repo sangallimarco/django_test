@@ -133,6 +133,10 @@ class Person(models.Model):
 		else:
 			return False
 
+	@classmethod
+	def filterTags(cls, tags):
+		return cls.objects.filter( tags__in = Tag.objects.filter( id__in = tags ) )
+
 	def __unicode__(self):
 		return self.name
 

@@ -9,6 +9,7 @@ urlpatterns = patterns('mainapp',
 					   url(r'^login/$', 'views.log_in'),
 					   url(r'^logout/$', 'views.log_out'),
 					   url(r'^profile/$','views.profile'),
+					   url(r'^profile/ajax/$', 'views.sign_in_ajax'),
 
 					   url(r'^messages/$', 'views.messages'),
 					   url(r'^new_message/(?P<sender_id>.*)/$', 'views.new_message'),
