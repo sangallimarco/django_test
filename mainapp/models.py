@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.core import serializers
+import hashlib
+import datetime
+import time
 
 # Follow Natural Keys
 def getNaturalKeys(d):
@@ -98,7 +101,9 @@ class Person(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.user:
 			#create a new user, set an automatic password, confirmation email
-			u = User.objects.create_user(self.username, self.email, 'password')
+			t = int(time.time()*1000)
+			password = hashlib.sha1("%s" %  t).hexdigest()
+			u = User.objects.create_user(self.username, self.email, password)
 			u.save()
 			#selet user
 			self.user = u

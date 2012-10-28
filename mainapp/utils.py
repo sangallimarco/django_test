@@ -7,6 +7,14 @@ import os.path
 import urllib, urllib2
 from django.utils.encoding import smart_str
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+
+def getAbsPath():
+	return os.path.abspath(os.path.dirname(__file__))
+
+def getRelPath():
+	return getAbsPath().split("/").pop()
 
 def render_page(request, template, data, menu = "home"):
 	"""
@@ -31,9 +39,10 @@ def render_page(request, template, data, menu = "home"):
 	data['MATCH_COUNTER'] = f_counter
 	#
 	data['TEMPLATE'] = template
-	data['APP_PATH']= "/%s/" % os.path.abspath(os.path.dirname(__file__)).split("/").pop()
+	data['APP_PATH']= "/%s/" % getRelPath()
+	print os.path.abspath(os.path.dirname(__file__))
 	#
-	return render_to_response('mainapp/templates/%s.html' % template,
+	return render_to_response('%s/templates/%s.html' % (getAbsPath(), template),
 	                          data,
 	                          context_instance = RequestContext(request))
 
@@ -45,11 +54,15 @@ def getUser(request):
 			uid = Person.objects.get(username = request.user)
 			#save into session
 			request.session["uid"] = uid
-
 		return uid
 	else:
-		#del request.session["uid"]
 		return None
+
+def send_email(subject, template, person):
+	f =  settings.GENERAL_EMAIL
+	body = render_to_string('%s/templates/%s.html' % (getAbsPath(), template), person)
+	send_mail(subject , body, f,[ person.email ], fail_silently=False)
+
 
 def get_lat_lng(location):
 	# Reference: http://djangosnippets.org/snippets/293/

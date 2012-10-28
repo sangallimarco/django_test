@@ -36,6 +36,20 @@ def sign_in(request):
 			except:
 				print "duplicated keys"
 			else:
+				#send email with temp password
+				try:
+					p = Person.objects.get(username = request.POST["username"])
+				except:
+					#render an error
+					pass
+				else:
+					#send email
+					try:
+						send_email('signin_email',p)
+					except:
+						#render error
+						pass
+				#
 				return redirect('/mainapp/index/')
 			#add tags
 	else:
