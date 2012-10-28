@@ -58,6 +58,7 @@ def getUser(request):
 	else:
 		return None
 
+# https://docs.djangoproject.com/en/dev/topics/email/
 def send_email(subject, template, person):
 	f =  settings.GENERAL_EMAIL
 	body = render_to_string('%s/templates/%s.html' % (getAbsPath(), template), person)
