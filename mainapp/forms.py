@@ -27,3 +27,6 @@ class MessageForm(forms.ModelForm):
 		exclude = ('status', 'sender', 'destination')
 
 
+class TagForm(forms.ModelForm):
+	class Meta:
+		model = Tag

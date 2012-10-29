@@ -40,17 +40,15 @@ def sign_in(request):
 				try:
 					p = Person.objects.get(username = request.POST["username"])
 				except:
-					#render an error
-					pass
+					return redirect('/%s/error/' % getRelPath())
 				else:
 					#send email
 					try:
 						send_email('signin_email',p)
 					except:
-						#render error
-						pass
+						return redirect('/%s/error/' % getRelPath())
 				#
-				return redirect('/mainapp/index/')
+				return redirect('/%s/index/' % getRelPath())
 			#add tags
 	else:
 		p = Person()
@@ -79,7 +77,7 @@ def sign_in_ajax(request):
 	return HttpResponse(res, mimetype = "application/json")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def profile(request):
 	#get user id
 	uid = getUser(request)
@@ -105,7 +103,7 @@ def profile(request):
 	return render_page(request, 'profile', {'formset':formset}, menu = "home")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def profile_ajax(request):
 	if request.method == "GET":
 		#query string
@@ -143,7 +141,7 @@ def log_out(request):
 	return redirect('/mainapp/index/')
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def matches(request):
 	#get user id
 	uid = getUser(request)
@@ -161,7 +159,7 @@ def matches(request):
 	return render_page(request, 'matches', {'list':a, "search_contact":search}, menu = "matches")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def matches_fans(request):
 	#get user id
 	uid = getUser(request)
@@ -171,7 +169,7 @@ def matches_fans(request):
 	return render_page(request, 'matches_fans', {'list':a}, menu = "matches")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def matches_ajax(request):
 	#get user id
 	uid = getUser(request)
@@ -207,7 +205,7 @@ def matches_ajax(request):
 	return HttpResponse(res, mimetype = "application/json")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def messages(request):
 	#get user id
 	uid = getUser(request)
@@ -218,7 +216,7 @@ def messages(request):
 	return render_page(request, 'messages', {'list':list}, menu = "messages")
 
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def new_message(request, sender_id):
 	#get user id
 	user = getUser(request)
@@ -288,7 +286,7 @@ def reply_message(request, message_id):
 
 ######## TESTS ######################################################################################################
 
-@login_required(login_url = '/mainapp/login/')
+@login_required(login_url = '/%s/login/' % getRelPath())
 def showid(request, name_id):
 	a = Person.objects.get(id = name_id)
 	if a:

@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.core import serializers
 import os.path
 import urllib, urllib2
+import json
 from django.utils.encoding import smart_str
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -68,14 +69,14 @@ def send_email(subject, template, person):
 def get_lat_lng(location):
 	# Reference: http://djangosnippets.org/snippets/293/
 	# https://gist.github.com/1372541
+	# get lat lng res['results'][0]['geometry']['location']
 
 	location = urllib.quote_plus(smart_str(location))
 	url = 'http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=false' % location
 	response = urllib2.urlopen(url).read()
-	result = serializers.deserialize("json",response)
+	#result = serializers.deserialize("json",response)
+	result = json.loads(response)
 	if result['status'] == 'OK':
-		lat = str(result['results'][0]['geometry']['location']['lat'])
-		lng = str(result['results'][0]['geometry']['location']['lng'])
-		return '%s,%s' % (lat, lng)
+		return result
 	else:
-		return ''
+		return False

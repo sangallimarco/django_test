@@ -6,8 +6,11 @@ urlpatterns = patterns('mainapp',
 
                        url(r'^signin/$', 'views.sign_in'),
                        url(r'^signin/ajax/$', 'views.sign_in_ajax'),
+                       url(r'^signin/error/$', 'views.sign_in_error'),
+
 					   url(r'^login/$', 'views.log_in'),
 					   url(r'^logout/$', 'views.log_out'),
+
 					   url(r'^profile/$','views.profile'),
 					   url(r'^profile/ajax/$', 'views.sign_in_ajax'),
 

@@ -45,10 +45,14 @@ USE_TZ = True
 
 # System email
 GENERAL_EMAIL = "root@website.com"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# django localserver
+LOCAL_ROOT = '/Users/someuser/Documents/www/django_test'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/Users/someuser/Documents/www/django_test/mainapp/media/'
+MEDIA_ROOT = '%s/mainapp/media/' % LOCAL_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -59,7 +63,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/Users/someuser/Documents/www/django_test/mainapp/static/'
+STATIC_ROOT = '%s/mainapp/static/' % LOCAL_ROOT
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
