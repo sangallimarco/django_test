@@ -52,7 +52,7 @@ def getUser(request):
 		try:
 			uid = request.session["uid"]
 		except:
-			uid = Person.objects.get(username = request.user)
+			uid = Person.objects.select_related().get(username = request.user)
 			#save into session
 			request.session["uid"] = uid
 		return uid

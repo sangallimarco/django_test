@@ -18,8 +18,15 @@
 						<div class="control-group">
 							{{ field.label_tag }}
 							<div class="controls">
-								<textarea name="{{ field.name }}" id="id_{{ field.name }}">{{ field.value }}</textarea>
+								<textarea name="{{ field.name }}" id="id_{{ field.name }}"></textarea>
 							</div>
+							<script>
+								var selected = [
+								{% for option in presel %}
+									{id:{{ option.id }},name:'{{ option.name }}'},
+								{% endfor %}
+								];
+							</script>
 						</div>
 					{% else %}
 						<div class="control-group">

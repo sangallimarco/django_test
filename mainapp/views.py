@@ -99,8 +99,9 @@ def profile(request):
 			#add tags
 	else:
 		formset = ProfileForm(instance = uid)
+		presel = uid.tags.all
 
-	return render_page(request, 'profile', {'formset':formset}, menu = "home")
+	return render_page(request, 'profile', {'formset':formset,'presel':presel}, menu = "home")
 
 
 @login_required(login_url = '/%s/login/' % getRelPath())

@@ -41,8 +41,11 @@ $(document).ready(function(){
 	$("#id_tags").tokenInput("ajax/",
 		{
 			theme: "facebook",
-			preventDuplicates:true
+			preventDuplicates:true,
+			prePopulate: selected
 		}
 	);
+
+
 
 });
